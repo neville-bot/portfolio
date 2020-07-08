@@ -11,7 +11,7 @@ let showMenu = false;
 menuBtn.addEventListener("click", toggleMenu);
 
 function toggleMenu() {
-  if (!showmenu) {
+  if (!showMenu) {
     menuBtn.classList.add("close");
     menu.classList.add("show");
     menuNav.classList.add("show");
