@@ -1,14 +1,17 @@
 {
-  "name": "my_portfolio",
+  "name": "portfolio",
   "version": "1.0.0",
   "description": "Responsive portfolio",
   "main": "index.js",
+  "homepage": "https://neville-bot.github.io/portfolio",
   "scripts": {
-    "sass": "node-sass -w scss/ -o dist/css/ --recursive"
+    "sass": "node-sass -w scss/ -o dist/css/ --recursive",
+    "deploy": "gh-pages -d dist"
   },
   "author": "John Nevin",
   "license": "MIT",
   "dependencies": {
+    "gh-pages": "^3.1.0",
     "node-sass": "^4.14.1"
   }
 }
