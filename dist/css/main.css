@@ -69,7 +69,7 @@
 .menu-branding .portrait {
   width: 210px;
   height: 212px;
-  background: url("./img/portfolio_portrait.jpg");
+  background: url("../img/portfolio_portrait.jpg");
   border-radius: 50%;
   border: solid 3px #7d26cd;
 }
