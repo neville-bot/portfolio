@@ -40,7 +40,7 @@
   position: fixed;
   top: 0;
   width: 100%;
-  opacity: 0.9;
+  opacity: 0.96;
   visibility: hidden;
 
   &.show {
@@ -83,9 +83,9 @@
       transform: translate3d(0, 0, 0);
     }
     .portrait {
-      width: 250px;
-      height: 250px;
-      background: url("../img/portrait.jpg");
+      width: 210px;
+      height: 212px;
+      background: url("../img/portfolio_portrait.jpg");
       border-radius: 50%;
       border: solid 3px $secondary-color;
     }
