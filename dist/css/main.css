@@ -30,7 +30,7 @@
   position: fixed;
   top: 0;
   width: 100%;
-  opacity: 0.9;
+  opacity: 0.96;
   visibility: hidden;
 }
 .menu.show {
@@ -71,7 +71,7 @@
   height: 212px;
   background: url("../img/portfolio_portrait.jpg");
   border-radius: 50%;
-  border: solid 3px #7d26cd;
+  border: solid 3px #321660;
 }
 .menu .nav-item {
   transform: translate3d(600px, 0, 0);
@@ -81,7 +81,7 @@
   transform: translate3d(0, 0, 0);
 }
 .menu .nav-item.current > a {
-  color: #7d26cd;
+  color: #321660;
 }
 .menu .nav-link {
   display: inline-block;
@@ -95,7 +95,7 @@
   transition: all 0.5s ease-out;
 }
 .menu .nav-link:hover {
-  color: #7d26cd;
+  color: #321660;
 }
 
 .nav-item:nth-child(1) {
@@ -119,11 +119,11 @@
 }
 
 body {
-  background: #169bd7;
+  background: #58bfee;
   color: #000;
   height: 100%;
   margin: 0;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Inter", sans-serif;
   line-height: 1.5;
 }
 body#bg-img {
@@ -157,8 +157,6 @@ h1.sm-heading,
 h2.sm-heading,
 h3.sm-heading {
   margin-bottom: 2rem;
-  padding: 0.2rem 1rem;
-  background: rgba(23, 162, 224, 0.5);
 }
 
 a {
@@ -173,7 +171,7 @@ header {
 }
 
 .text-secondary {
-  color: #7d26cd;
+  color: #321660;
 }
 
 main {
@@ -207,7 +205,7 @@ main#home h1 {
   grid-area: bioimage;
   margin: auto;
   border-radius: 50%;
-  border: #7d26cd 3px solid;
+  border: #321660 3px solid;
 }
 .about-info .bio {
   grid-area: bio;
@@ -223,9 +221,9 @@ main#home h1 {
   grid-area: job3;
 }
 .about-info .job {
-  background: #1ea9e8;
-  padding: 0.5rem;
-  border-bottom: #7d26cd 5px solid;
+  padding: 0.7rem;
+  border: #321660 4px solid;
+  border-radius: 10px;
 }
 
 .projects {
@@ -239,7 +237,7 @@ main#home h1 {
 }
 .projects img:hover {
   opacity: 0.5;
-  border-color: #7d26cd;
+  border-color: #321660;
   transition: all 0.5s ease-out;
 }
 
@@ -259,7 +257,7 @@ main#home h1 {
 }
 .boxes div:hover {
   padding: 0.5rem 1.5rem;
-  background: #7d26cd;
+  background: #321660;
   color: #000;
 }
 .boxes div:hover span {
@@ -277,7 +275,7 @@ main#home h1 {
 .btn:hover,
 .btn-dark:hover,
 .btn-light:hover {
-  background: #7d26cd;
+  background: #321660;
   color: #000;
 }
 
@@ -294,7 +292,7 @@ main#home h1 {
 #main-footer {
   text-align: center;
   padding: 1rem;
-  background: #117aa9;
+  background: #58bfee;
   color: #000;
   height: 60px;
 }
