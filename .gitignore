@@ -1,3 +1,5 @@
-node_modules
-example_com.csr
-example_com.key
+_site
+.sass-cache
+.jekyll-cache
+.jekyll-metadata
+vendor
