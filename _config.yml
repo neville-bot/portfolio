@@ -19,15 +19,14 @@
 # in the templates via {{ site.myvariable }}.
 
 title: John Nevin's Portfolio
-redirect_from:
-  - https://neville-bot.github.io/
+redirect_to: https://www.johnevin.com
 email: jnevin17@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
   Hi, I'm John, a full-stack JS engineer. Proficient at React, Node.js,
   Express, PostgreSQL, HTML, and CSS. Developing projects and learning along 
   the way is my passion.
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "https://johnevin.com" # the base hostname & protocol for your site, e.g. http://example.com
+url: "https://neville-bot.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: jekyllrb
 github_username: jekyll
 
