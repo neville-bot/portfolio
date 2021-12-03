@@ -26,7 +26,7 @@ description: >- # this means to ignore newlines until "baseurl:"
   Express, PostgreSQL, HTML, and CSS. Developing projects and learning along 
   the way is my passion.
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "https://neville-bot.github.io" # the base hostname & protocol for your site, e.g. http://example.com
+url: "https://www.johnevin.com" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: jekyllrb
 github_username: jekyll
 
