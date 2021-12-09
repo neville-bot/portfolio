@@ -3,3 +3,13 @@ _site
 .jekyll-cache
 .jekyll-metadata
 vendor
+node_modules
+.sass-cache
+.DS_Store
+.git
+.gitignore
+example_com.csr
+example_com.key
+_posts
+.vscode
+
