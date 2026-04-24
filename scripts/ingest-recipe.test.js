@@ -1,4 +1,16 @@
-const { extractFromSchema } = require('./ingest-recipe');
+jest.mock('@anthropic-ai/sdk', () => {
+  return jest.fn().mockImplementation(() => ({
+    messages: {
+      create: jest.fn().mockResolvedValue({
+        content: [{
+          text: '{"title":"Lemon Tart","ingredients":["3 eggs","100g sugar","juice of 2 lemons"],"steps":["Mix eggs and sugar.","Add lemon juice.","Bake at 180C for 20 min."]}',
+        }],
+      }),
+    },
+  }));
+});
+
+const { extractFromSchema, extractWithClaude } = require('./ingest-recipe');
 
 const SCHEMA_HTML = `<html><head>
   <script type="application/ld+json">
@@ -56,20 +68,6 @@ describe('extractFromSchema', () => {
   });
 });
 
-jest.mock('@anthropic-ai/sdk', () => {
-  return jest.fn().mockImplementation(() => ({
-    messages: {
-      create: jest.fn().mockResolvedValue({
-        content: [{
-          text: '{"title":"Lemon Tart","ingredients":["3 eggs","100g sugar","juice of 2 lemons"],"steps":["Mix eggs and sugar.","Add lemon juice.","Bake at 180C for 20 min."]}',
-        }],
-      }),
-    },
-  }));
-});
-
-const { extractWithClaude } = require('./ingest-recipe');
-
 const PLAIN_HTML = `<html><body>
   <nav>Nav stuff</nav>
   <h1>Lemon Tart</h1>
@@ -93,5 +91,33 @@ describe('extractWithClaude', () => {
     expect(result.title).toBe('Lemon Tart');
     expect(result.ingredients).toHaveLength(3);
     expect(result.steps).toHaveLength(3);
+  });
+
+  it('returns null when Claude returns invalid JSON', async () => {
+    const Anthropic = require('@anthropic-ai/sdk');
+    Anthropic.mockClear();
+    Anthropic.mockImplementation(() => ({
+      messages: {
+        create: jest.fn().mockResolvedValue({
+          content: [{ text: 'Sorry, I could not find a recipe on this page.' }],
+        }),
+      },
+    }));
+    const result = await extractWithClaude(PLAIN_HTML);
+    expect(result).toBeNull();
+  });
+
+  it('returns null when Claude response fails validation', async () => {
+    const Anthropic = require('@anthropic-ai/sdk');
+    Anthropic.mockClear();
+    Anthropic.mockImplementation(() => ({
+      messages: {
+        create: jest.fn().mockResolvedValue({
+          content: [{ text: '{"title":"Bad","ingredients":"not-an-array","steps":null}' }],
+        }),
+      },
+    }));
+    const result = await extractWithClaude(PLAIN_HTML);
+    expect(result).toBeNull();
   });
 });

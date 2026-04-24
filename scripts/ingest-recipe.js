@@ -1,7 +1,4 @@
 const cheerio = require('cheerio');
-const fs = require('fs');
-const path = require('path');
-require('dotenv').config();
 
 function findRecipeInData(data) {
   if (!data) return null;
@@ -41,6 +38,7 @@ function extractFromSchema(html) {
 }
 
 async function extractWithClaude(html) {
+  if (!html || typeof html !== 'string') return null;
   const Anthropic = require('@anthropic-ai/sdk');
   const $ = cheerio.load(html);
   $('script, style, nav, header, footer, aside').remove();
@@ -56,7 +54,21 @@ async function extractWithClaude(html) {
     }],
   });
 
-  return JSON.parse(message.content[0].text);
+  let parsed;
+  try {
+    parsed = JSON.parse(message.content[0].text);
+  } catch {
+    return null;
+  }
+  if (
+    !parsed ||
+    typeof parsed !== 'object' ||
+    (parsed.ingredients !== null && !Array.isArray(parsed.ingredients)) ||
+    (parsed.steps !== null && !Array.isArray(parsed.steps))
+  ) {
+    return null;
+  }
+  return parsed;
 }
 
 module.exports = { extractFromSchema, extractWithClaude };
