@@ -2,6 +2,7 @@ const cheerio = require('cheerio');
 const slugifyLib = require('slugify');
 const fs = require('fs');
 const path = require('path');
+const fetch = require('node-fetch');
 require('dotenv').config();
 
 function findRecipeInData(data) {
@@ -96,6 +97,56 @@ function addRecipe(recipes, recipe) {
 function saveRecipes(filepath, recipes) {
   fs.mkdirSync(path.dirname(filepath), { recursive: true });
   fs.writeFileSync(filepath, JSON.stringify(recipes, null, 2));
+}
+
+async function fetchPage(url) {
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`Failed to fetch ${url}: ${res.status}`);
+  return res.text();
+}
+
+async function main(url) {
+  console.log(`Fetching ${url}...`);
+  const html = await fetchPage(url);
+
+  console.log('Trying schema.org extraction...');
+  let extracted = extractFromSchema(html);
+
+  if (!extracted || !extracted.title) {
+    console.log('No schema found, falling back to Claude...');
+    extracted = await extractWithClaude(html);
+  }
+
+  if (!extracted || !extracted.title) {
+    console.error('Could not extract recipe — title missing.');
+    process.exit(1);
+  }
+
+  const id = slugify(extracted.title);
+  const recipe = { id, title: extracted.title, ingredients: extracted.ingredients, steps: extracted.steps };
+
+  const recipesPath = path.join(__dirname, '../dist/data/recipes.json');
+  const recipes = loadRecipes(recipesPath);
+  const updated = addRecipe(recipes, recipe);
+
+  if (updated.length === recipes.length) {
+    console.log(`Recipe "${recipe.title}" already exists (id: ${id}), skipping.`);
+  } else {
+    saveRecipes(recipesPath, updated);
+    console.log(`Added "${recipe.title}" (id: ${id})`);
+  }
+}
+
+if (require.main === module) {
+  const url = process.argv[2];
+  if (!url) {
+    console.error('Usage: node scripts/ingest-recipe.js <url>');
+    process.exit(1);
+  }
+  main(url).catch(err => {
+    console.error(err.message);
+    process.exit(1);
+  });
 }
 
 module.exports = { extractFromSchema, extractWithClaude, slugify, loadRecipes, addRecipe, saveRecipes };
