@@ -1,4 +1,7 @@
 const cheerio = require('cheerio');
+const fs = require('fs');
+const path = require('path');
+require('dotenv').config();
 
 function findRecipeInData(data) {
   if (!data) return null;
@@ -37,4 +40,23 @@ function extractFromSchema(html) {
   return result;
 }
 
-module.exports = { extractFromSchema };
+async function extractWithClaude(html) {
+  const Anthropic = require('@anthropic-ai/sdk');
+  const $ = cheerio.load(html);
+  $('script, style, nav, header, footer, aside').remove();
+  const text = $('body').text().replace(/\s+/g, ' ').trim().slice(0, 8000);
+
+  const client = new Anthropic();
+  const message = await client.messages.create({
+    model: 'claude-haiku-4-5-20251001',
+    max_tokens: 1024,
+    messages: [{
+      role: 'user',
+      content: `Extract the recipe from this page text. Return ONLY a JSON object with this exact shape and no other text:\n{"title":"string or null","ingredients":["string"] or null,"steps":["string"] or null}\n\nPage text:\n${text}`,
+    }],
+  });
+
+  return JSON.parse(message.content[0].text);
+}
+
+module.exports = { extractFromSchema, extractWithClaude };

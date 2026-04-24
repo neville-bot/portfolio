@@ -55,3 +55,43 @@ describe('extractFromSchema', () => {
     expect(result.ingredients).toEqual(['1 onion']);
   });
 });
+
+jest.mock('@anthropic-ai/sdk', () => {
+  return jest.fn().mockImplementation(() => ({
+    messages: {
+      create: jest.fn().mockResolvedValue({
+        content: [{
+          text: '{"title":"Lemon Tart","ingredients":["3 eggs","100g sugar","juice of 2 lemons"],"steps":["Mix eggs and sugar.","Add lemon juice.","Bake at 180C for 20 min."]}',
+        }],
+      }),
+    },
+  }));
+});
+
+const { extractWithClaude } = require('./ingest-recipe');
+
+const PLAIN_HTML = `<html><body>
+  <nav>Nav stuff</nav>
+  <h1>Lemon Tart</h1>
+  <p>Ingredients: eggs, sugar, lemon.</p>
+  <p>Mix and bake.</p>
+</body></html>`;
+
+describe('extractWithClaude', () => {
+  it('strips nav/header/footer before sending to Claude', async () => {
+    const Anthropic = require('@anthropic-ai/sdk');
+    jest.clearAllMocks();
+    await extractWithClaude(PLAIN_HTML);
+    // The mock constructor creates instances with mock messages.create
+    const instance = Anthropic.mock.results[0].value;
+    const callArg = instance.messages.create.mock.calls[0][0];
+    expect(callArg.messages[0].content).not.toContain('Nav stuff');
+  });
+
+  it('returns structured recipe from Claude response', async () => {
+    const result = await extractWithClaude(PLAIN_HTML);
+    expect(result.title).toBe('Lemon Tart');
+    expect(result.ingredients).toHaveLength(3);
+    expect(result.steps).toHaveLength(3);
+  });
+});
