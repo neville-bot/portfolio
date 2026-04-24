@@ -81,7 +81,11 @@ function slugify(title) {
 
 function loadRecipes(filepath) {
   if (!fs.existsSync(filepath)) return [];
-  return JSON.parse(fs.readFileSync(filepath, 'utf8'));
+  try {
+    return JSON.parse(fs.readFileSync(filepath, 'utf8'));
+  } catch {
+    return [];
+  }
 }
 
 function addRecipe(recipes, recipe) {

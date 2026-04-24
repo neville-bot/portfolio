@@ -139,7 +139,8 @@ describe('slugify', () => {
 
 describe('loadRecipes', () => {
   it('returns empty array when file does not exist', () => {
-    expect(loadRecipes('/tmp/nonexistent-xyz.json')).toEqual([]);
+    const nonexistent = path.join(os.tmpdir(), `nonexistent-${Date.now()}-${Math.random()}.json`);
+    expect(loadRecipes(nonexistent)).toEqual([]);
   });
 
   it('returns parsed array from existing file', () => {
@@ -166,11 +167,15 @@ describe('addRecipe', () => {
 });
 
 describe('saveRecipes', () => {
+  let tmpFile;
+  afterEach(() => {
+    if (tmpFile && fs.existsSync(tmpFile)) fs.unlinkSync(tmpFile);
+  });
+
   it('writes recipes as formatted JSON', () => {
-    const tmp = path.join(os.tmpdir(), 'save-test-recipes.json');
-    saveRecipes(tmp, [{ id: 'soup', title: 'Soup' }]);
-    const written = JSON.parse(fs.readFileSync(tmp, 'utf8'));
+    tmpFile = path.join(os.tmpdir(), `save-test-${Date.now()}.json`);
+    saveRecipes(tmpFile, [{ id: 'soup', title: 'Soup' }]);
+    const written = JSON.parse(fs.readFileSync(tmpFile, 'utf8'));
     expect(written).toEqual([{ id: 'soup', title: 'Soup' }]);
-    fs.unlinkSync(tmp);
   });
 });
