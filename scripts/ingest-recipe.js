@@ -1,4 +1,8 @@
 const cheerio = require('cheerio');
+const slugifyLib = require('slugify');
+const fs = require('fs');
+const path = require('path');
+require('dotenv').config();
 
 function findRecipeInData(data) {
   if (!data) return null;
@@ -71,4 +75,23 @@ async function extractWithClaude(html) {
   return parsed;
 }
 
-module.exports = { extractFromSchema, extractWithClaude };
+function slugify(title) {
+  return slugifyLib(title, { lower: true, strict: true });
+}
+
+function loadRecipes(filepath) {
+  if (!fs.existsSync(filepath)) return [];
+  return JSON.parse(fs.readFileSync(filepath, 'utf8'));
+}
+
+function addRecipe(recipes, recipe) {
+  if (recipes.some(r => r.id === recipe.id)) return recipes;
+  return [...recipes, recipe];
+}
+
+function saveRecipes(filepath, recipes) {
+  fs.mkdirSync(path.dirname(filepath), { recursive: true });
+  fs.writeFileSync(filepath, JSON.stringify(recipes, null, 2));
+}
+
+module.exports = { extractFromSchema, extractWithClaude, slugify, loadRecipes, addRecipe, saveRecipes };

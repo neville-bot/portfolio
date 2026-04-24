@@ -121,3 +121,56 @@ describe('extractWithClaude', () => {
     expect(result).toBeNull();
   });
 });
+
+const os = require('os');
+const path = require('path');
+const fs = require('fs');
+const { loadRecipes, addRecipe, saveRecipes, slugify } = require('./ingest-recipe');
+
+describe('slugify', () => {
+  it('converts a title to a lowercase hyphenated slug', () => {
+    expect(slugify('Chicken Tikka Masala')).toBe('chicken-tikka-masala');
+  });
+
+  it('handles accented characters', () => {
+    expect(slugify('Crème Brûlée')).toBe('creme-brulee');
+  });
+});
+
+describe('loadRecipes', () => {
+  it('returns empty array when file does not exist', () => {
+    expect(loadRecipes('/tmp/nonexistent-xyz.json')).toEqual([]);
+  });
+
+  it('returns parsed array from existing file', () => {
+    const tmp = path.join(os.tmpdir(), 'test-recipes.json');
+    fs.writeFileSync(tmp, JSON.stringify([{ id: 'test', title: 'Test' }]));
+    expect(loadRecipes(tmp)).toEqual([{ id: 'test', title: 'Test' }]);
+    fs.unlinkSync(tmp);
+  });
+});
+
+describe('addRecipe', () => {
+  it('appends a new recipe', () => {
+    const result = addRecipe([], { id: 'pasta', title: 'Pasta' });
+    expect(result).toHaveLength(1);
+    expect(result[0].id).toBe('pasta');
+  });
+
+  it('skips a recipe with a duplicate id', () => {
+    const existing = [{ id: 'pasta', title: 'Pasta' }];
+    const result = addRecipe(existing, { id: 'pasta', title: 'Pasta Updated' });
+    expect(result).toHaveLength(1);
+    expect(result[0].title).toBe('Pasta');
+  });
+});
+
+describe('saveRecipes', () => {
+  it('writes recipes as formatted JSON', () => {
+    const tmp = path.join(os.tmpdir(), 'save-test-recipes.json');
+    saveRecipes(tmp, [{ id: 'soup', title: 'Soup' }]);
+    const written = JSON.parse(fs.readFileSync(tmp, 'utf8'));
+    expect(written).toEqual([{ id: 'soup', title: 'Soup' }]);
+    fs.unlinkSync(tmp);
+  });
+});
