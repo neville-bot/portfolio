@@ -114,7 +114,12 @@ async function main(url) {
 
   if (!extracted || !extracted.title) {
     console.log('No schema found, falling back to Claude...');
-    extracted = await extractWithClaude(html);
+    try {
+      extracted = await extractWithClaude(html);
+    } catch (err) {
+      console.error(`Claude extraction failed: ${err.message}`);
+      process.exit(1);
+    }
   }
 
   if (!extracted || !extracted.title) {
@@ -149,4 +154,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = { extractFromSchema, extractWithClaude, slugify, loadRecipes, addRecipe, saveRecipes };
+module.exports = { fetchPage, main, extractFromSchema, extractWithClaude, slugify, loadRecipes, addRecipe, saveRecipes };
