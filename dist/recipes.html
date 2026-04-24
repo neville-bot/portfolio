@@ -7,6 +7,12 @@
       src="https://kit.fontawesome.com/808fc3951d.js"
       crossorigin="anonymous"
     ></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter&display=swap"
+      rel="stylesheet"
+    />
     <link
       rel="icon"
       type="image/png"
@@ -49,13 +55,21 @@
     <main id="recipes">
       <h1 class="lg-heading">My <span class="text-secondary">Recipes</span></h1>
       <h2 class="sm-heading">Pick something to cook...</h2>
-      <select class="recipe-select" id="recipe-select">
+      <select class="recipe-select" id="recipe-select" aria-label="Select a recipe">
         <option value="">-- Choose a recipe --</option>
       </select>
       <div class="recipe-display" id="recipe-display"></div>
     </main>
     <script src="js/main.js"></script>
     <script>
+      function escHtml(str) {
+        return String(str)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;');
+      }
+
       (async () => {
         const select = document.getElementById('recipe-select');
         const display = document.getElementById('recipe-display');
@@ -63,6 +77,7 @@
 
         try {
           const res = await fetch('./data/recipes.json');
+          if (!res.ok) { display.innerHTML = '<p>No recipes yet.</p>'; return; }
           recipes = await res.json();
         } catch {
           display.innerHTML = '<p>No recipes yet.</p>';
@@ -84,16 +99,20 @@
         select.addEventListener('change', () => {
           const recipe = recipes.find(r => r.id === select.value);
           if (!recipe) { display.innerHTML = ''; return; }
+          if (!Array.isArray(recipe.ingredients) || !Array.isArray(recipe.steps)) {
+            display.innerHTML = '<p>Recipe data is invalid.</p>';
+            return;
+          }
           display.innerHTML = `
-            <h2 class="recipe-title">${recipe.title}</h2>
+            <h2 class="recipe-title">${escHtml(recipe.title)}</h2>
             <div class="recipe-body">
               <div class="recipe-ingredients">
                 <h3>Ingredients</h3>
-                <ul>${recipe.ingredients.map(i => `<li>${i}</li>`).join('')}</ul>
+                <ul>${recipe.ingredients.map(i => `<li>${escHtml(i)}</li>`).join('')}</ul>
               </div>
               <div class="recipe-steps">
                 <h3>Steps</h3>
-                <ol>${recipe.steps.map(s => `<li>${s}</li>`).join('')}</ol>
+                <ol>${recipe.steps.map(s => `<li>${escHtml(s)}</li>`).join('')}</ol>
               </div>
             </div>
           `;
