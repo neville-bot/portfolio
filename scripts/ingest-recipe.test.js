@@ -44,6 +44,8 @@ describe('extractFromSchema', () => {
   it('normalises HowToStep objects and plain strings', () => {
     const result = extractFromSchema(SCHEMA_HTML);
     expect(result.steps).toHaveLength(3);
+    expect(result.steps[0]).toBe('Boil pasta until al dente.');
+    expect(result.steps[1]).toBe('Fry pancetta until crispy.');
     expect(result.steps[2]).toBe('Mix eggs with pasta off heat.');
   });
 

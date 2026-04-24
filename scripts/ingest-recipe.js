@@ -1,9 +1,4 @@
 const cheerio = require('cheerio');
-const slugifyLib = require('slugify');
-const fs = require('fs');
-const path = require('path');
-const fetch = require('node-fetch');
-require('dotenv').config();
 
 function findRecipeInData(data) {
   if (!data) return null;
@@ -20,6 +15,7 @@ function findRecipeInData(data) {
 }
 
 function extractFromSchema(html) {
+  if (!html || typeof html !== 'string') return null;
   const $ = cheerio.load(html);
   let result = null;
   $('script[type="application/ld+json"]').each((_, el) => {
