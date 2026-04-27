@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://kit.fontawesome.com/808fc3951d.js"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./favicon.ico/favicon-32x32.png?"
+    />
+    <link rel="stylesheet" href="css/main.css" />
+    <title>My Recipes</title>
+  </head>
+  <body>
+    <header>
+      <div class="menu-btn">
+        <div class="btn-line"></div>
+        <div class="btn-line"></div>
+        <div class="btn-line"></div>
+      </div>
+      <nav class="menu">
+        <div class="menu-branding">
+          <div class="portrait"></div>
+        </div>
+        <ul class="menu-nav">
+          <li class="nav-item">
+            <a href="index.html" class="nav-link">Home</a>
+          </li>
+          <li class="nav-item">
+            <a href="about.html" class="nav-link">About Me</a>
+          </li>
+          <li class="nav-item">
+            <a href="work.html" class="nav-link">My Work</a>
+          </li>
+          <li class="nav-item">
+            <a href="contact.html" class="nav-link">How To Reach Me</a>
+          </li>
+          <li class="nav-item current">
+            <a href="recipes.html" class="nav-link">My Recipes</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <main id="recipes">
+      <h1 class="lg-heading">My <span class="text-secondary">Recipes</span></h1>
+      <h2 class="sm-heading">Pick something to cook...</h2>
+      <select class="recipe-select" id="recipe-select" aria-label="Select a recipe">
+        <option value="">-- Choose a recipe --</option>
+      </select>
+      <div class="recipe-display" id="recipe-display"></div>
+    </main>
+    <script src="js/main.js"></script>
+    <script>
+      function escHtml(str) {
+        return String(str)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;');
+      }
+
+      (async () => {
+        const select = document.getElementById('recipe-select');
+        const display = document.getElementById('recipe-display');
+        let recipes = [];
+
+        try {
+          const res = await fetch('./data/recipes.json');
+          if (!res.ok) { display.innerHTML = '<p>No recipes yet.</p>'; return; }
+          recipes = await res.json();
+        } catch {
+          display.innerHTML = '<p>No recipes yet.</p>';
+          return;
+        }
+
+        if (!recipes.length) {
+          display.innerHTML = '<p>No recipes yet.</p>';
+          return;
+        }
+
+        recipes.forEach(r => {
+          const opt = document.createElement('option');
+          opt.value = r.id;
+          opt.textContent = r.title;
+          select.appendChild(opt);
+        });
+
+        select.addEventListener('change', () => {
+          const recipe = recipes.find(r => r.id === select.value);
+          if (!recipe) { display.innerHTML = ''; return; }
+          if (!Array.isArray(recipe.ingredients) || !Array.isArray(recipe.steps)) {
+            display.innerHTML = '<p>Recipe data is invalid.</p>';
+            return;
+          }
+          display.innerHTML = `
+            <h2 class="recipe-title">${escHtml(recipe.title)}</h2>
+            <div class="recipe-body">
+              <div class="recipe-ingredients">
+                <h3>Ingredients</h3>
+                <ul>${recipe.ingredients.map(i => `<li>${escHtml(i)}</li>`).join('')}</ul>
+              </div>
+              <div class="recipe-steps">
+                <h3>Steps</h3>
+                <ol>${recipe.steps.map(s => `<li>${escHtml(s)}</li>`).join('')}</ol>
+              </div>
+            </div>
+          `;
+        });
+      })();
+    </script>
+  </body>
+</html>
