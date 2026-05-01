@@ -2,6 +2,10 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Domain
+
+See [CONTEXT.md](CONTEXT.md) for the recipe pipeline glossary (Recipe, Extraction, Extractor, Source, Ingest).
+
 ## Commands
 
 ```bash
