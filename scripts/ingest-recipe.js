@@ -106,29 +106,25 @@ async function fetchPage(url) {
 }
 
 async function main(url) {
+  const { extract } = require('./recipe-extractor');
+
   console.log(`Fetching ${url}...`);
   const html = await fetchPage(url);
 
-  console.log('Trying schema.org extraction...');
-  let extracted = extractFromSchema(html);
-
-  if (!extracted || !extracted.title) {
-    console.log('No schema found, falling back to Claude...');
-    try {
-      extracted = await extractWithClaude(html);
-    } catch (err) {
-      console.error(`Claude extraction failed: ${err.message}`);
-      process.exit(1);
-    }
-  }
-
-  if (!extracted || !extracted.title) {
+  const { recipe: extracted, source } = await extract(html);
+  if (!extracted) {
     console.error('Could not extract recipe — title missing.');
     process.exit(1);
   }
+  console.log(`Extracted via ${source}`);
 
+  const { normalize } = require('./recipe');
   const id = slugify(extracted.title);
-  const recipe = { id, title: extracted.title, ingredients: extracted.ingredients, steps: extracted.steps };
+  const recipe = normalize(extracted, { id });
+  if (!recipe) {
+    console.error('Could not extract recipe — title missing.');
+    process.exit(1);
+  }
 
   const recipesPath = path.join(__dirname, '../dist/data/recipes.json');
   const recipes = loadRecipes(recipesPath);
