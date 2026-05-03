@@ -16,37 +16,90 @@ describe('escHtml', () => {
   });
 });
 
-describe('renderRecipe', () => {
+describe('renderRecipe — new DOM shape', () => {
   const recipe = {
-    id: 'pasta',
-    title: 'Pasta',
-    ingredients: ['eggs', 'flour'],
-    steps: ['mix', 'cook'],
+    id: 'demo',
+    title: 'One Pot Chicken & Rice',
+    ingredients: [
+      '4 - 6 Tablespoons butter (divided)',
+      'salt and pepper to taste',
+    ],
+    steps: ['First step text.', 'Second step text.'],
   };
 
-  it('includes title, all ingredients (in order), all steps (in order)', () => {
-    const html = renderRecipe(recipe);
-    expect(html).toContain('Pasta');
-    const eggsIdx = html.indexOf('eggs');
-    const flourIdx = html.indexOf('flour');
-    expect(eggsIdx).toBeGreaterThan(-1);
-    expect(flourIdx).toBeGreaterThan(eggsIdx);
-    const mixIdx = html.indexOf('mix');
-    const cookIdx = html.indexOf('cook');
-    expect(mixIdx).toBeGreaterThan(-1);
-    expect(cookIdx).toBeGreaterThan(mixIdx);
+  function htmlOf(html) {
+    const div = document.createElement('div');
+    div.innerHTML = html;
+    return div;
+  }
+
+  it('emits a recipe-title element with the title', () => {
+    const root = htmlOf(renderRecipe(recipe));
+    const title = root.querySelector('.recipe-title');
+    expect(title).not.toBeNull();
+    expect(title.textContent).toBe('One Pot Chicken & Rice');
   });
 
-  it('escapes title containing <script>', () => {
-    const html = renderRecipe({ ...recipe, title: '<script>alert(1)</script>' });
-    expect(html).toContain('&lt;script&gt;');
-    expect(html).not.toContain('<script>alert(1)');
+  it('emits ingredients as a UL of LI.ing-row with qty + name spans', () => {
+    const root = htmlOf(renderRecipe(recipe));
+    const list = root.querySelector('ul.recipe-ingredients-list');
+    expect(list).not.toBeNull();
+    const items = list.querySelectorAll('li.ing-row');
+    expect(items.length).toBe(2);
+
+    const first = items[0];
+    expect(first.querySelector('.ing-qty').textContent).toBe('4 - 6 Tablespoons');
+    expect(first.querySelector('.ing-name').textContent).toBe('butter (divided)');
+    expect(first.classList.contains('ing-row--full')).toBe(false);
   });
 
-  it('escapes ingredient and step content', () => {
-    const html = renderRecipe({ ...recipe, ingredients: ['<b>boom</b>'], steps: ['"go"'] });
-    expect(html).toContain('&lt;b&gt;boom&lt;/b&gt;');
-    expect(html).toContain('&quot;go&quot;');
+  it('falls back to ing-row--full when qty is null', () => {
+    const root = htmlOf(renderRecipe(recipe));
+    const items = root.querySelectorAll('li.ing-row');
+    const fallback = items[1];
+    expect(fallback.classList.contains('ing-row--full')).toBe(true);
+    expect(fallback.querySelector('.ing-qty')).toBeNull();
+    expect(fallback.querySelector('.ing-name').textContent).toBe('salt and pepper to taste');
+  });
+
+  it('emits steps as an OL of LI.step with badge + text spans', () => {
+    const root = htmlOf(renderRecipe(recipe));
+    const list = root.querySelector('ol.recipe-steps-list');
+    expect(list).not.toBeNull();
+    const items = list.querySelectorAll('li.step');
+    expect(items.length).toBe(2);
+
+    const first = items[0];
+    expect(first.querySelector('.step-n').textContent).toBe('1');
+    expect(first.querySelector('.step-text').textContent).toBe('First step text.');
+    expect(items[1].querySelector('.step-n').textContent).toBe('2');
+  });
+
+  it('emits an Ingredients section label and a Method section label', () => {
+    const root = htmlOf(renderRecipe(recipe));
+    const labels = Array.from(root.querySelectorAll('.r-section')).map(el => el.textContent);
+    expect(labels).toEqual(['Ingredients', 'Method']);
+  });
+
+  it('escapes ingredient name with HTML special chars', () => {
+    const evil = { ...recipe, ingredients: ['<b>oops</b>'] };
+    const root = htmlOf(renderRecipe(evil));
+    expect(root.innerHTML).toContain('&lt;b&gt;oops&lt;/b&gt;');
+    expect(root.querySelector('b')).toBeNull();
+  });
+
+  it('escapes step text with HTML special chars', () => {
+    const evil = { ...recipe, steps: ['<img onerror="x">'] };
+    const root = htmlOf(renderRecipe(evil));
+    expect(root.querySelector('img')).toBeNull();
+    expect(root.innerHTML).toContain('&lt;img');
+  });
+
+  it('escapes title with HTML special chars', () => {
+    const evil = { ...recipe, title: '<script>alert(1)</script>' };
+    const root = htmlOf(renderRecipe(evil));
+    expect(root.querySelector('script')).toBeNull();
+    expect(root.innerHTML).toContain('&lt;script&gt;');
   });
 });
 

@@ -44,19 +44,34 @@ function parseQuantity(line) {
 }
 
 function renderRecipe(recipe) {
+  const ingItems = recipe.ingredients.map(line => {
+    const { qty, name } = parseQuantity(line);
+    if (qty === null) {
+      return `<li class="ing-row ing-row--full"><span class="ing-name">${escHtml(name)}</span></li>`;
+    }
+    return `<li class="ing-row"><span class="ing-qty">${escHtml(qty)}</span><span class="ing-name">${escHtml(name)}</span></li>`;
+  }).join('');
+
+  const stepItems = recipe.steps.map((s, i) => `
+    <li class="step">
+      <span class="step-n" aria-hidden="true">${i + 1}</span>
+      <span class="step-text">${escHtml(s)}</span>
+    </li>
+  `).join('');
+
   return `
-            <h2 class="recipe-title">${escHtml(recipe.title)}</h2>
-            <div class="recipe-body">
-              <div class="recipe-ingredients">
-                <h3>Ingredients</h3>
-                <ul>${recipe.ingredients.map(i => `<li>${escHtml(i)}</li>`).join('')}</ul>
-              </div>
-              <div class="recipe-steps">
-                <h3>Steps</h3>
-                <ol>${recipe.steps.map(s => `<li>${escHtml(s)}</li>`).join('')}</ol>
-              </div>
-            </div>
-          `;
+    <h2 class="recipe-title">${escHtml(recipe.title)}</h2>
+    <div class="recipe-body">
+      <div class="recipe-ingredients">
+        <h3 class="r-section">Ingredients</h3>
+        <ul class="recipe-ingredients-list">${ingItems}</ul>
+      </div>
+      <div class="recipe-steps">
+        <h3 class="r-section">Method</h3>
+        <ol class="recipe-steps-list">${stepItems}</ol>
+      </div>
+    </div>
+  `;
 }
 
 function init({ select, display, fetchJson }) {
