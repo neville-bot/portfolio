@@ -197,6 +197,90 @@ describe('parseQuantity', () => {
   });
 });
 
+const { wireStickyIngredients } = require('../dist/js/recipes');
+
+describe('wireStickyIngredients', () => {
+  let bar, panel, btn;
+
+  beforeEach(() => {
+    document.body.innerHTML = `
+      <button id="bar-btn">Ingredients</button>
+      <div id="bar"></div>
+      <div id="panel"><div class="ingredients-overlay-inner"></div></div>
+      <div id="threshold-target"></div>
+    `;
+    bar = document.getElementById('bar');
+    panel = document.getElementById('panel');
+    btn = document.getElementById('bar-btn');
+    bar.appendChild(btn);
+  });
+
+  function setScroll(y) {
+    Object.defineProperty(window, 'scrollY', { value: y, writable: true, configurable: true });
+    window.dispatchEvent(new Event('scroll'));
+  }
+
+  it('does not add is-visible to bar before scrolling past threshold', () => {
+    wireStickyIngredients({ bar, panel, threshold: 200 });
+    setScroll(100);
+    expect(bar.classList.contains('is-visible')).toBe(false);
+  });
+
+  it('adds is-visible to bar once scrollY passes threshold', () => {
+    wireStickyIngredients({ bar, panel, threshold: 200 });
+    setScroll(300);
+    expect(bar.classList.contains('is-visible')).toBe(true);
+  });
+
+  it('removes is-visible if scroll returns above threshold', () => {
+    wireStickyIngredients({ bar, panel, threshold: 200 });
+    setScroll(300);
+    setScroll(50);
+    expect(bar.classList.contains('is-visible')).toBe(false);
+  });
+
+  it('toggles is-open on panel when bar button is clicked', () => {
+    wireStickyIngredients({ bar, panel, threshold: 0 });
+    btn.click();
+    expect(panel.classList.contains('is-open')).toBe(true);
+    btn.click();
+    expect(panel.classList.contains('is-open')).toBe(false);
+  });
+
+  it('closes panel on Escape key', () => {
+    wireStickyIngredients({ bar, panel, threshold: 0 });
+    btn.click();
+    expect(panel.classList.contains('is-open')).toBe(true);
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+    expect(panel.classList.contains('is-open')).toBe(false);
+  });
+
+  it('closes panel when clicking outside the overlay-inner', () => {
+    wireStickyIngredients({ bar, panel, threshold: 0 });
+    btn.click();
+    panel.click();
+    expect(panel.classList.contains('is-open')).toBe(false);
+  });
+
+  it('does NOT close panel when clicking inside overlay-inner', () => {
+    wireStickyIngredients({ bar, panel, threshold: 0 });
+    btn.click();
+    const inner = panel.querySelector('.ingredients-overlay-inner');
+    inner.click();
+    expect(panel.classList.contains('is-open')).toBe(true);
+  });
+
+  it('cleanup function removes scroll, click, and keydown listeners', () => {
+    const cleanup = wireStickyIngredients({ bar, panel, threshold: 200 });
+    cleanup();
+    setScroll(300);
+    expect(bar.classList.contains('is-visible')).toBe(false);
+
+    btn.click();
+    expect(panel.classList.contains('is-open')).toBe(false);
+  });
+});
+
 describe('init', () => {
   let select, display;
 
