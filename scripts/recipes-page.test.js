@@ -281,6 +281,56 @@ describe('wireStickyIngredients', () => {
   });
 });
 
+describe('init — sticky overlay integration', () => {
+  beforeEach(() => {
+    document.body.innerHTML = `
+      <select id="recipe-select"><option value="">-- Choose --</option></select>
+      <div id="recipe-display"></div>
+      <div id="ingredients-bar"><button>Ingredients</button></div>
+      <div id="ingredients-overlay">
+        <div class="ingredients-overlay-inner"></div>
+      </div>
+    `;
+  });
+
+  const flush = () => new Promise(r => setTimeout(r, 0));
+
+  it('after selecting a recipe, the overlay-inner mirrors the ingredient list', async () => {
+    init({
+      select: document.getElementById('recipe-select'),
+      display: document.getElementById('recipe-display'),
+      stickyBar: document.getElementById('ingredients-bar'),
+      overlay: document.getElementById('ingredients-overlay'),
+      fetchJson: () => Promise.resolve([
+        { id: 'a', title: 'Alpha', ingredients: ['1 cup flour', 'salt to taste'], steps: ['mix'] },
+      ]),
+    });
+    await flush();
+
+    document.getElementById('recipe-select').value = 'a';
+    document.getElementById('recipe-select').dispatchEvent(new Event('change'));
+
+    const innerHtml = document.querySelector('.ingredients-overlay-inner').innerHTML;
+    expect(innerHtml).toContain('1 cup');
+    expect(innerHtml).toContain('flour');
+    expect(innerHtml).toContain('salt to taste');
+  });
+
+  it('init is backward-compatible — works without stickyBar/overlay params', async () => {
+    init({
+      select: document.getElementById('recipe-select'),
+      display: document.getElementById('recipe-display'),
+      fetchJson: () => Promise.resolve([
+        { id: 'a', title: 'Alpha', ingredients: ['1 cup flour'], steps: ['mix'] },
+      ]),
+    });
+    await flush();
+    document.getElementById('recipe-select').value = 'a';
+    document.getElementById('recipe-select').dispatchEvent(new Event('change'));
+    expect(document.getElementById('recipe-display').querySelector('.recipe-title').textContent).toBe('Alpha');
+  });
+});
+
 describe('init', () => {
   let select, display;
 

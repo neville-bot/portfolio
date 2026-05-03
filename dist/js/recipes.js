@@ -115,8 +115,9 @@ function wireStickyIngredients({ bar, panel, threshold }) {
   };
 }
 
-function init({ select, display, fetchJson }) {
+function init({ select, display, stickyBar, overlay, fetchJson }) {
   let recipes = [];
+  let cleanupSticky = null;
 
   const showEmpty = () => { display.innerHTML = '<p>No recipes yet.</p>'; };
 
@@ -135,6 +136,18 @@ function init({ select, display, fetchJson }) {
     const recipe = recipes.find(r => r.id === select.value);
     if (!recipe) { display.innerHTML = ''; return; }
     display.innerHTML = renderRecipe(recipe);
+
+    if (stickyBar && overlay) {
+      const inner = overlay.querySelector('.ingredients-overlay-inner');
+      const sourceList = display.querySelector('.recipe-ingredients-list');
+      if (inner && sourceList) {
+        inner.innerHTML = sourceList.outerHTML;
+      }
+      if (cleanupSticky) cleanupSticky();
+      const ingredientsEl = display.querySelector('.recipe-ingredients');
+      const threshold = ingredientsEl ? ingredientsEl.offsetTop + ingredientsEl.offsetHeight : 0;
+      cleanupSticky = wireStickyIngredients({ bar: stickyBar, panel: overlay, threshold });
+    }
   });
 }
 
