@@ -121,6 +121,27 @@ describe('parseQuantity', () => {
       name: 'nutmeg',
     });
   });
+
+  it('does not mis-match single-letter unit prefixes (e.g. "l" inside "large")', () => {
+    expect(parseQuantity('1 large onion')).toEqual({
+      qty: '1',
+      name: 'large onion',
+    });
+  });
+
+  it('handles hyphenated ranges without spaces', () => {
+    expect(parseQuantity('4-6 Tbsp butter')).toEqual({
+      qty: '4-6 Tbsp',
+      name: 'butter',
+    });
+  });
+
+  it('mixed numbers like "1 1/2 cups" are a documented limitation — only the leading whole captures', () => {
+    expect(parseQuantity('1 1/2 cups flour')).toEqual({
+      qty: '1',
+      name: '1/2 cups flour',
+    });
+  });
 });
 
 describe('init', () => {
