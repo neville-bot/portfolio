@@ -50,6 +50,79 @@ describe('renderRecipe', () => {
   });
 });
 
+const { parseQuantity } = require('../dist/js/recipes');
+
+describe('parseQuantity', () => {
+  it('extracts whole-number qty with simple unit', () => {
+    expect(parseQuantity('2 cups long-grain white rice')).toEqual({
+      qty: '2 cups',
+      name: 'long-grain white rice',
+    });
+  });
+
+  it('extracts ranged qty with Tablespoons', () => {
+    expect(parseQuantity('4 - 6 Tablespoons butter (divided)')).toEqual({
+      qty: '4 - 6 Tablespoons',
+      name: 'butter (divided)',
+    });
+  });
+
+  it('extracts ASCII fraction qty', () => {
+    expect(parseQuantity('1/2 tsp salt')).toEqual({
+      qty: '1/2 tsp',
+      name: 'salt',
+    });
+  });
+
+  it('extracts unicode fraction qty', () => {
+    expect(parseQuantity('½ cup milk')).toEqual({
+      qty: '½ cup',
+      name: 'milk',
+    });
+  });
+
+  it('captures only the leading digit when modifier is not a known unit', () => {
+    expect(parseQuantity('1 heaping cup shredded carrots')).toEqual({
+      qty: '1',
+      name: 'heaping cup shredded carrots',
+    });
+  });
+
+  it('returns null qty when no leading number is present', () => {
+    expect(parseQuantity('salt and pepper to taste')).toEqual({
+      qty: null,
+      name: 'salt and pepper to taste',
+    });
+  });
+
+  it('handles empty string', () => {
+    expect(parseQuantity('')).toEqual({ qty: null, name: '' });
+  });
+
+  it('handles whitespace-only input', () => {
+    expect(parseQuantity('   ')).toEqual({ qty: null, name: '' });
+  });
+
+  it('handles non-string input by coercing or returning null', () => {
+    expect(parseQuantity(null)).toEqual({ qty: null, name: '' });
+    expect(parseQuantity(undefined)).toEqual({ qty: null, name: '' });
+  });
+
+  it('extracts oz unit', () => {
+    expect(parseQuantity('8 oz cream cheese')).toEqual({
+      qty: '8 oz',
+      name: 'cream cheese',
+    });
+  });
+
+  it('extracts pinch as a known unit', () => {
+    expect(parseQuantity('1 pinch nutmeg')).toEqual({
+      qty: '1 pinch',
+      name: 'nutmeg',
+    });
+  });
+});
+
 describe('init', () => {
   let select, display;
 

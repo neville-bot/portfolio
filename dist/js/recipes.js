@@ -6,6 +6,43 @@ function escHtml(str) {
     .replace(/"/g, '&quot;');
 }
 
+function parseQuantity(line) {
+  if (typeof line !== 'string') return { qty: null, name: '' };
+  const trimmed = line.trim();
+  if (!trimmed) return { qty: null, name: '' };
+
+  const units = [
+    'Tablespoons', 'Tablespoon', 'Tbsp',
+    'teaspoons', 'teaspoon', 'tsp',
+    'cups', 'cup',
+    'ounces', 'ounce', 'oz',
+    'pounds', 'pound', 'lbs', 'lb',
+    'grams', 'gram', 'g',
+    'kilograms', 'kilogram', 'kg',
+    'milliliters', 'milliliter', 'ml',
+    'liters', 'liter', 'l',
+    'cloves', 'clove',
+    'pinches', 'pinch',
+    'dashes', 'dash',
+    'sprigs', 'sprig',
+    'cans', 'can',
+    'packages', 'package', 'pkg',
+    'sticks', 'stick',
+    'slices', 'slice',
+  ];
+
+  const numberPart = '[\\d¼½¾⅓⅔⅛⅜⅝⅞]+(?:\\s*[/-]\\s*[\\d¼½¾⅓⅔⅛⅜⅝⅞]+)?';
+  const unitPart = `(?:\\s+(?:${units.join('|')}))?`;
+  const re = new RegExp(`^(${numberPart}${unitPart})(?:\\s+(.*))?$`);
+
+  const match = trimmed.match(re);
+  if (!match) return { qty: null, name: trimmed };
+
+  const qty = match[1].trim();
+  const name = (match[2] || '').trim();
+  return { qty, name };
+}
+
 function renderRecipe(recipe) {
   return `
             <h2 class="recipe-title">${escHtml(recipe.title)}</h2>
@@ -46,5 +83,5 @@ function init({ select, display, fetchJson }) {
 }
 
 if (typeof module !== 'undefined') {
-  module.exports = { escHtml, renderRecipe, init };
+  module.exports = { escHtml, parseQuantity, renderRecipe, init };
 }
