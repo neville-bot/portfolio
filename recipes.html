@@ -61,63 +61,13 @@
       <div class="recipe-display" id="recipe-display"></div>
     </main>
     <script src="js/main.js"></script>
+    <script src="js/recipes.js"></script>
     <script>
-      function escHtml(str) {
-        return String(str)
-          .replace(/&/g, '&amp;')
-          .replace(/</g, '&lt;')
-          .replace(/>/g, '&gt;')
-          .replace(/"/g, '&quot;');
-      }
-
-      (async () => {
-        const select = document.getElementById('recipe-select');
-        const display = document.getElementById('recipe-display');
-        let recipes = [];
-
-        try {
-          const res = await fetch('./data/recipes.json');
-          if (!res.ok) { display.innerHTML = '<p>No recipes yet.</p>'; return; }
-          recipes = await res.json();
-        } catch {
-          display.innerHTML = '<p>No recipes yet.</p>';
-          return;
-        }
-
-        if (!recipes.length) {
-          display.innerHTML = '<p>No recipes yet.</p>';
-          return;
-        }
-
-        recipes.forEach(r => {
-          const opt = document.createElement('option');
-          opt.value = r.id;
-          opt.textContent = r.title;
-          select.appendChild(opt);
-        });
-
-        select.addEventListener('change', () => {
-          const recipe = recipes.find(r => r.id === select.value);
-          if (!recipe) { display.innerHTML = ''; return; }
-          if (!Array.isArray(recipe.ingredients) || !Array.isArray(recipe.steps)) {
-            display.innerHTML = '<p>Recipe data is invalid.</p>';
-            return;
-          }
-          display.innerHTML = `
-            <h2 class="recipe-title">${escHtml(recipe.title)}</h2>
-            <div class="recipe-body">
-              <div class="recipe-ingredients">
-                <h3>Ingredients</h3>
-                <ul>${recipe.ingredients.map(i => `<li>${escHtml(i)}</li>`).join('')}</ul>
-              </div>
-              <div class="recipe-steps">
-                <h3>Steps</h3>
-                <ol>${recipe.steps.map(s => `<li>${escHtml(s)}</li>`).join('')}</ol>
-              </div>
-            </div>
-          `;
-        });
-      })();
+      init({
+        select: document.getElementById('recipe-select'),
+        display: document.getElementById('recipe-display'),
+        fetchJson: url => fetch(url).then(r => r.ok ? r.json() : Promise.reject()),
+      });
     </script>
   </body>
 </html>
