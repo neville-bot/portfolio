@@ -1,4 +1,20 @@
+const { spawnSync } = require('child_process');
+const path = require('path');
 const { extract, isAcceptable } = require('./recipe-extractor');
+
+describe('ingest-recipe CLI module wiring', () => {
+  it('loads recipe-extractor with callable extractor functions when run as CLI entry', () => {
+    const result = spawnSync(
+      process.execPath,
+      [path.join(__dirname, 'ingest-recipe.js'), 'http://127.0.0.1:1/'],
+      { encoding: 'utf8', timeout: 10000 },
+    );
+    const combined = `${result.stdout}\n${result.stderr}`;
+    expect(combined).not.toMatch(/Accessing non-existent property 'extractFromSchema'/);
+    expect(combined).not.toMatch(/Accessing non-existent property 'extractWithClaude'/);
+    expect(combined).not.toMatch(/run is not a function/);
+  });
+});
 
 function makeExtractors(...impls) {
   return impls.map((impl, i) => ({

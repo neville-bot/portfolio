@@ -1,4 +1,4 @@
-const { extractFromSchema, extractWithClaude } = require('./ingest-recipe');
+const { extractFromSchema, extractWithClaude } = require('./extractors');
 
 function isAcceptable(extraction) {
   return !!(
