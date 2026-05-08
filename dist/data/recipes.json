@@ -1,1 +1,53 @@
-[]
+[
+  {
+    "id": "one-pot-chicken-and-rice",
+    "title": "One Pot Chicken and Rice",
+    "ingredients": [
+      "4 - 6 Tablespoons butter or vegan butter (divided)",
+      "1 heaping cup shredded or chopped carrots",
+      "homemade seasoned salt and pepper (to taste)",
+      "2 scant cups long grain white rice (Lundberg White Jasmine Rice recommended)",
+      "1 Tablespoon dried minced onion",
+      "1 teaspoon dried minced garlic",
+      "2 Tablespoons dried parsley flakes",
+      "8 cups chicken stock",
+      "2  chicken breasts (~1lb, cut into bite-sized pieces (NOT HUNKS))"
+    ],
+    "steps": [
+      "Melt 2 Tablespoons butter in a large soup pot over medium heat. Add carrots, season with seasoned salt and pepper, then place a lid on top and cook until carrots are tender, 5-6 minutes, stirring occasionally.",
+      "Add rice, dried onions, and dried garlic then stir to coat the rice in butter and saute for 1 minute. Add dried parsley and chicken stock then turn heat up to high to bring to a boil, stirring occasionally to ensure the rice doesn’t stick to the bottom of the pot as it comes to a boil.",
+      "Turn heat down to medium-low then simmer for 15 minutes, stirring occasionally. Season chicken with seasoned salt and pepper then add to the pot, turning the heat up slightly to bring it back up to a simmer if necessary. Turn the heat back down to medium-low then continue to simmer until the chicken is cooked through and rice is al dente, 7-10 more minutes, stirring occasionally and more frequently near the end.",
+      "Stir in remaining 2 - 4 Tablespoons butter (however much you like!) then season with additional seasoned salt and pepper if necessary. Let the dish sit for 5 minutes to thicken and cool then scoop into bowls and serve."
+    ]
+  },
+  {
+    "id": "puff-pastry-chicken-potpie",
+    "title": "Puff Pastry Chicken Potpie",
+    "ingredients": [
+      "1 package (17.3 ounces) frozen puff pastry, thawed",
+      "2 pounds boneless skinless chicken breasts, cut into 1-inch pieces",
+      "1 teaspoon salt, divided",
+      "1 teaspoon pepper, divided",
+      "4 tablespoons butter, divided",
+      "1 large onion, chopped",
+      "2 garlic cloves, minced",
+      "1 teaspoon minced fresh thyme or 1/4 teaspoon dried thyme",
+      "1 teaspoon minced fresh sage or 1/4 teaspoon rubbed sage",
+      "1/2 cup all-purpose flour",
+      "1-1/2 cups chicken broth",
+      "1 cup plus 1 tablespoon half-and-half cream, divided",
+      "2 cups frozen mixed vegetables (about 10 ounces)",
+      "1 tablespoon lemon juice",
+      "1 large egg yolk"
+    ],
+    "steps": [
+      "Preheat the oven to 400°F. On a lightly floured surface, roll each pastry sheet into a 12x10-inch rectangle. Cut one sheet crosswise into six 2-inch strips. Cut the remaining sheet lengthwise into five 2-inch strips. On a baking sheet, closely weave the strips to make a 12x10-inch lattice. Place the lattice in the freezer while you prepare the filling. Editor’s Tip: Making the puff pastry lattice is similar to making a lattice pie crust or a bacon weave. If this is your first time, watch the video below to see each step in detail.",
+      "Toss the chicken with 1/2 teaspoon each salt and pepper. In a large skillet, heat 1 tablespoon butter over medium-high heat. Saute the chicken until browned, five to seven minutes. Remove the chicken from the pan, and set aside.",
+      "In the same skillet, heat the remaining butter over medium-high heat. Saute the onion until tender, five to seven minutes. Stir in the garlic, thyme and sage, and cook for one minute. Stir in the flour until blended. Cook and stir for one minute. Gradually stir in the broth and 1 cup half-and-half cream. Bring the mixture to a boil, stirring constantly. Cook and stir until thickened, about two minutes.",
+      "Stir in the frozen vegetables, lemon juice, chicken, and the remaining salt and pepper. Return the mixture to a boil.",
+      "Transfer the filling to a greased 2-1/2-quart oblong baking dish. Top it with the lattice, trimming the edges to fit. Editor’s Tip: Normally, you’d want to cut slits in the puff pastry to help the steam escape. Since you turned the pastry into a lattice, there’s no need!",
+      "Whisk together the egg yolk and the remaining cream. Brush it over the pastry. Editor’s Tip: An egg wash helps seal the puff pastry. It also gives the crust a glossy finish and golden-brown sheen.",
+      "Bake, uncovered, until the filling is bubbly and the pastry is golden brown, 45 to 55 minutes. Cover loosely with foil if the pastry starts getting too dark. Let the potpie stand for 15 minutes before serving."
+    ]
+  }
+]
