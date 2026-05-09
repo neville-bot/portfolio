@@ -1,3 +1,5 @@
+jest.mock('node-fetch', () => jest.fn());
+
 jest.mock('@anthropic-ai/sdk', () => {
   return jest.fn().mockImplementation(() => ({
     messages: {
@@ -177,5 +179,17 @@ describe('saveRecipes', () => {
     saveRecipes(tmpFile, [{ id: 'soup', title: 'Soup' }]);
     const written = JSON.parse(fs.readFileSync(tmpFile, 'utf8'));
     expect(written).toEqual([{ id: 'soup', title: 'Soup' }]);
+  });
+});
+
+const fetchMock = require('node-fetch');
+const { fetchPage } = require('./ingest-recipe');
+
+describe('fetchPage', () => {
+  beforeEach(() => fetchMock.mockReset());
+
+  it('throws on non-ok response', async () => {
+    fetchMock.mockResolvedValue({ ok: false, status: 403 });
+    await expect(fetchPage('https://example.com/blocked')).rejects.toThrow(/403/);
   });
 });
