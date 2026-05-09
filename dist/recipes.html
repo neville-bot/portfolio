@@ -60,12 +60,20 @@
       </select>
       <div class="recipe-display" id="recipe-display"></div>
     </main>
+    <button id="sticky-ingredients-bar" type="button" aria-controls="ingredients-overlay">
+      Ingredients
+    </button>
+    <div id="ingredients-overlay" role="dialog" aria-modal="true" aria-label="Ingredients">
+      <div class="ingredients-overlay-inner"></div>
+    </div>
     <script src="js/main.js"></script>
     <script src="js/recipes.js"></script>
     <script>
       init({
         select: document.getElementById('recipe-select'),
         display: document.getElementById('recipe-display'),
+        stickyBar: document.getElementById('sticky-ingredients-bar'),
+        overlay: document.getElementById('ingredients-overlay'),
         fetchJson: url => fetch(url).then(r => r.ok ? r.json() : Promise.reject()),
       });
     </script>

@@ -317,7 +317,7 @@ main#home h1 {
 }
 
 .recipe-display {
-  max-width: 700px;
+  max-width: 960px;
 }
 
 .recipe-title {
@@ -328,12 +328,13 @@ main#home h1 {
 
 .recipe-body {
   display: grid;
-  grid-template-columns: 1fr 2fr;
-  grid-gap: 2rem;
+  grid-template-columns: minmax(260px, 1fr) 2fr;
+  grid-gap: 2.5rem;
 }
 @media screen and (max-width: 768px) {
   .recipe-body {
     grid-template-columns: 1fr;
+    grid-gap: 1.5rem;
   }
 }
 
@@ -355,6 +356,162 @@ main#home h1 {
 .recipe-steps ol li {
   margin-bottom: 0.4rem;
   line-height: 1.6;
+}
+
+.r-section {
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #321660;
+  margin: 0 0 0.75rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 2px solid #321660;
+}
+
+.recipe-ingredients-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.ing-row {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.85rem;
+  align-items: baseline;
+  padding: 0.5rem 0;
+  border-bottom: 1px dashed rgba(50, 22, 96, 0.25);
+  line-height: 1.55;
+}
+.ing-row:last-child {
+  border-bottom: none;
+}
+@media screen and (max-width: 768px) {
+  .ing-row {
+    grid-template-columns: 1fr;
+    gap: 0.1rem;
+    padding: 0.55rem 0;
+  }
+}
+
+.ing-row--full {
+  grid-template-columns: 1fr;
+}
+
+.ing-qty {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  color: #321660;
+  white-space: nowrap;
+}
+@media screen and (max-width: 768px) {
+  .ing-qty {
+    white-space: normal;
+  }
+}
+
+.ing-name {
+  color: inherit;
+}
+
+.recipe-steps-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  counter-reset: step;
+}
+
+.step {
+  display: grid;
+  grid-template-columns: 2.25rem 1fr;
+  gap: 1rem;
+  align-items: start;
+  padding: 0.85rem 0;
+}
+.step + .step {
+  border-top: 1px solid rgba(50, 22, 96, 0.15);
+}
+
+.step-n {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  background: #321660;
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.95rem;
+  line-height: 1;
+}
+
+.step-text {
+  line-height: 1.65;
+}
+
+#sticky-ingredients-bar {
+  display: none;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 90;
+  width: 100%;
+  padding: 0.9rem 1rem;
+  font-family: "Inter", sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #fff;
+  background: #321660;
+  border: none;
+  border-top: 2px solid rgb(82.4152542373, 36.2627118644, 158.2372881356);
+  cursor: pointer;
+  transform: translateY(100%);
+  transition: transform 0.25s ease-out;
+}
+@media screen and (max-width: 768px) {
+  #sticky-ingredients-bar {
+    display: block;
+  }
+}
+#sticky-ingredients-bar.is-visible {
+  transform: translateY(0);
+}
+
+#ingredients-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: none;
+  align-items: flex-end;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.55);
+  opacity: 0;
+  transition: opacity 0.2s ease-out;
+}
+#ingredients-overlay.is-open {
+  display: flex;
+  opacity: 1;
+}
+
+.ingredients-overlay-inner {
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: 1.25rem 1.25rem 5rem;
+  background: #fff;
+  color: #111;
+  border-top-left-radius: 0.75rem;
+  border-top-right-radius: 0.75rem;
+}
+.ingredients-overlay-inner .ing-row {
+  border-bottom-color: rgba(0, 0, 0, 0.12);
+}
+.ingredients-overlay-inner .ing-qty {
+  color: #321660;
 }
 
 @media screen and (min-width: 1171px) {
@@ -416,5 +573,3 @@ main#home h1 {
     grid-template-columns: 1fr;
   }
 }
-
-/*# sourceMappingURL=main.css.map */
