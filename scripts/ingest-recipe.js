@@ -34,11 +34,17 @@ async function fetchPage(url) {
   return res.text();
 }
 
-async function main(url) {
+async function main(url, { htmlFile, recipesPath } = {}) {
   const { extract } = require('./recipe-extractor');
 
-  console.log(`Fetching ${url}...`);
-  const html = await fetchPage(url);
+  let html;
+  if (htmlFile) {
+    console.log(`Reading HTML from ${htmlFile} (source: ${url})...`);
+    html = fs.readFileSync(htmlFile, 'utf8');
+  } else {
+    console.log(`Fetching ${url}...`);
+    html = await fetchPage(url);
+  }
 
   const { recipe: extracted, source } = await extract(html);
   if (!extracted) {
@@ -55,28 +61,41 @@ async function main(url) {
     process.exit(1);
   }
 
-  const recipesPath = path.join(__dirname, '../dist/data/recipes.json');
-  const recipes = loadRecipes(recipesPath);
+  const targetPath = recipesPath || path.join(__dirname, '../dist/data/recipes.json');
+  const recipes = loadRecipes(targetPath);
   const updated = addRecipe(recipes, recipe);
 
   if (updated.length === recipes.length) {
     console.log(`Recipe "${recipe.title}" already exists (id: ${id}), skipping.`);
   } else {
-    saveRecipes(recipesPath, updated);
+    saveRecipes(targetPath, updated);
     console.log(`Added "${recipe.title}" (id: ${id})`);
   }
 }
 
+function parseArgs(argv) {
+  const opts = {};
+  const positional = [];
+  for (let i = 0; i < argv.length; i++) {
+    if (argv[i] === '--html-file') {
+      opts.htmlFile = argv[++i];
+    } else {
+      positional.push(argv[i]);
+    }
+  }
+  return { url: positional[0], opts };
+}
+
 if (require.main === module) {
-  const url = process.argv[2];
+  const { url, opts } = parseArgs(process.argv.slice(2));
   if (!url) {
-    console.error('Usage: node scripts/ingest-recipe.js <url>');
+    console.error('Usage: node scripts/ingest-recipe.js [--html-file <path>] <url>');
     process.exit(1);
   }
-  main(url).catch(err => {
+  main(url, opts).catch(err => {
     console.error(err.message);
     process.exit(1);
   });
 }
 
-module.exports = { fetchPage, main, extractFromSchema, extractWithClaude, slugify, loadRecipes, addRecipe, saveRecipes };
+module.exports = { fetchPage, main, parseArgs, extractFromSchema, extractWithClaude, slugify, loadRecipes, addRecipe, saveRecipes };

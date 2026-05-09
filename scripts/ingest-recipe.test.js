@@ -183,7 +183,7 @@ describe('saveRecipes', () => {
 });
 
 const fetchMock = require('node-fetch');
-const { fetchPage } = require('./ingest-recipe');
+const { fetchPage, main } = require('./ingest-recipe');
 
 describe('fetchPage', () => {
   beforeEach(() => fetchMock.mockReset());
@@ -191,5 +191,36 @@ describe('fetchPage', () => {
   it('throws on non-ok response', async () => {
     fetchMock.mockResolvedValue({ ok: false, status: 403 });
     await expect(fetchPage('https://example.com/blocked')).rejects.toThrow(/403/);
+  });
+});
+
+describe('main with --html-file', () => {
+  beforeEach(() => fetchMock.mockReset());
+
+  it('reads HTML from disk and skips fetchPage entirely', async () => {
+    const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'ingest-htmlfile-'));
+    const htmlFile = path.join(tmpDir, 'page.html');
+    const recipesPath = path.join(tmpDir, 'recipes.json');
+    fs.writeFileSync(htmlFile, SCHEMA_HTML);
+
+    await main('https://example.com/pasta-carbonara', { htmlFile, recipesPath });
+
+    expect(fetchMock).not.toHaveBeenCalled();
+    const written = JSON.parse(fs.readFileSync(recipesPath, 'utf8'));
+    expect(written).toHaveLength(1);
+    expect(written[0].title).toBe('Pasta Carbonara');
+    expect(written[0].id).toBe('pasta-carbonara');
+  });
+
+  it('without htmlFile, fetches over the network', async () => {
+    const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'ingest-noflag-'));
+    const recipesPath = path.join(tmpDir, 'recipes.json');
+    fetchMock.mockResolvedValue({ ok: true, text: async () => SCHEMA_HTML });
+
+    await main('https://example.com/pasta-carbonara', { recipesPath });
+
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    const written = JSON.parse(fs.readFileSync(recipesPath, 'utf8'));
+    expect(written[0].title).toBe('Pasta Carbonara');
   });
 });

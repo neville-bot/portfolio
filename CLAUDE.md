@@ -26,6 +26,14 @@ node scripts/ingest-recipe.js <url>
 
 The CLI fetches the URL, extracts the recipe via schema.org markup (fast, free) or falls back to the Claude API, then appends it to `dist/data/recipes.json`. After running, commit `dist/data/recipes.json` and deploy.
 
+If the source bot-blocks `node-fetch` (Cloudflare challenge, Akamai, JA3 fingerprinting — common on Dotdash Meredith sites like Food & Wine, Allrecipes, Serious Eats), open the URL in your browser, then DevTools → Elements → right-click `<html>` → Copy outerHTML → save as a `.html` file, and pass it directly:
+
+```bash
+node scripts/ingest-recipe.js --html-file path/to/saved.html <url>
+```
+
+The URL is still required as the recipe source identifier; only the network fetch is bypassed.
+
 ## Architecture
 
 Static portfolio site (no framework). Source SCSS compiles to `dist/css/main.css`; everything else in `dist/` is hand-authored and deployed directly.
