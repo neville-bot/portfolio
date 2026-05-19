@@ -198,7 +198,7 @@ main#home h1 {
 .about-info {
   display: grid;
   grid-gap: 30px;
-  grid-template-areas: "bioimage bio bio" "job1 job2 job3";
+  grid-template-areas: "bioimage bio bio" "bioimage techstack techstack" "job1 job2 job3";
   grid-template-columns: repeat(3, 1fr);
 }
 .about-info .bio-image {
@@ -210,6 +210,17 @@ main#home h1 {
 .about-info .bio {
   grid-area: bio;
   font-size: 1.5 rem;
+}
+.about-info .tech-stack {
+  grid-area: techstack;
+}
+.about-info .tech-stack ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.4rem 1.5rem;
 }
 .about-info .job-1 {
   grid-area: job1;
@@ -558,7 +569,10 @@ main#home h1 {
     height: 150px;
   }
   .about-info {
-    grid-template-areas: "bioimage" "bio" "job1" "job2" "job3";
+    grid-template-areas: "bioimage" "bio" "techstack" "job1" "job2" "job3";
+    grid-template-columns: 1fr;
+  }
+  .about-info .tech-stack ul {
     grid-template-columns: 1fr;
   }
   .projects {
