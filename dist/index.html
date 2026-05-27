@@ -2,19 +2,15 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- Icons - Git & Linkedin -->
-    <script
-      src="https://kit.fontawesome.com/808fc3951d.js"
-      crossorigin="anonymous"
-    ></script>
-    <!-- Inter Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter&display=swap"
-      rel="stylesheet"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#0a0a0f" />
+    <title>John Nevin — Software Engineer</title>
+    <meta name="description" content="John Nevin — software engineer building dependable things in JavaScript & TypeScript. Open to senior / staff IC roles." />
+    <meta property="og:title" content="John Nevin — Software Engineer" />
+    <meta property="og:description" content="Senior / staff software engineer. Building dependable things in JavaScript & TypeScript." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://www.johnevin.com/og.html" />
+
     <!-- Favicon -->
     <link
       rel="icon"
@@ -22,63 +18,29 @@
       sizes="32x32"
       href="./favicon.ico/favicon-32x32.png?"
     />
-    <!--Open Graph -->
-    <meta property="og:image:url" content="https://www.johnevin.com/og.html" />
-    <meta property="og:type" content="website" />
-
-    <meta property="og:title" content="John Nevin's Portfolio" />
-    <meta
-      property="og:description"
-      content="Hi, I'm John, a full-stack JS engineer."
-    />
-
     <link rel="manifest" href="/site.webmanifest" />
 
+    <!-- Inter + JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
     <link rel="stylesheet" href="css/main.css" />
-    <title>John Nevin</title>
   </head>
-  <body id="bg-img">
-    <header>
-      <div class="menu-btn">
-        <div class="btn-line"></div>
-        <div class="btn-line"></div>
-        <div class="btn-line"></div>
-      </div>
-      <nav class="menu">
-        <div class="menu-branding">
-          <div class="portrait"></div>
-        </div>
-        <ul class="menu-nav">
-          <li class="nav-item current">
-            <a href="index.html" class="nav-link"> Home</a>
-          </li>
-          <li class="nav-item">
-            <a href="about.html" class="nav-link"> About Me</a>
-          </li>
-          <li class="nav-item">
-            <a href="work.html" class="nav-link"> My Work</a>
-          </li>
-          <li class="nav-item">
-            <a href="contact.html" class="nav-link"> How To Reach Me</a>
-          </li>
-          <li class="nav-item">
-            <a href="recipes.html" class="nav-link">My Recipes</a>
-          </li>
-        </ul>
-      </nav>
-    </header>
-    <main id="home">
-      <h1 class="lg-heading">John <span class="text-secondary">Nevin</span></h1>
-      <h2 class="sm-heading">Software Developer</h2>
-      <div class="icons">
-        <a href="https://www.linkedin.com/in/john-nevin1/">
-          <i class="fab fa-linkedin fa-2x"></i>
-        </a>
-        <a href="https://github.com/neville-bot">
-          <i class="fab fa-github fa-2x"></i>
-        </a>
-      </div>
+  <body>
+    <main class="wrap">
+      <section id="hero"></section>
+      <section id="work"></section>
+      <section id="recipe"></section>
+      <section id="path"></section>
+      <section id="now"></section>
+      <section id="stack"></section>
+      <section id="contact"></section>
     </main>
+    <footer class="colophon"></footer>
     <script src="js/main.js"></script>
   </body>
 </html>
