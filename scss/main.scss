@@ -13,6 +13,7 @@
 @use './now';
 @use './stack';
 @use './contact';
+@use './recipes';
 
 *,
 *::before,
@@ -59,5 +60,3 @@ body {
 // hero in _hero.scss (T03)
 // work, recipe, path, now, stack, contact, footer — pending T04+
 
-// TODO(T10): rewrite scss/_recipes.scss and re-enable below.
-// @use './recipes';
