@@ -1,0 +1,237 @@
+// _recipe-inline.scss — portfolio redesign T05.
+// Inline recipe preview card for #recipe section. Lifted verbatim from
+// design_handoff_portfolio_redesign/prototype/portfolio_redesign/v2-stack.jsx
+// (the v2Css string, .v2-recipe-* + .v2-ing-row + .v2-step rules), then
+// renamed from .v2-recipe-* to production class names per the plan.
+//
+// Hardcoded content (FEATURED_RECIPE in data.js) — no JS for this section.
+// Section header / .btn-secondary come from _components.scss.
+
+@use './config' as *;
+
+// ----------------------------------------------------------------------
+// Card shell — .v2-recipe-card.
+// ----------------------------------------------------------------------
+.card--recipe {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.04),
+    rgba(255, 255, 255, 0.01)
+  );
+  border: 1px solid $rule;
+  border-radius: 20px;
+  padding: 32px;
+}
+
+// ----------------------------------------------------------------------
+// Header row — version pill · deploy indicator · sync timestamp.
+// .v2-recipe-hd / .v2-recipe-ver / .v2-recipe-deploy.
+// ----------------------------------------------------------------------
+.recipe-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.version-pill {
+  padding: 4px 10px;
+  background: $accent-soft;
+  border-radius: 6px;
+  font: 500 11px/1 $font-mono;
+  color: $accent;
+}
+
+.deploy-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font: 500 11px/1 $font-mono;
+  color: $green-fg;
+
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: $green;
+    animation: pulse 2s infinite;
+  }
+
+  &.muted {
+    color: $fg-mute;
+  }
+}
+
+// ----------------------------------------------------------------------
+// Title + source line — .v2-recipe-title / .v2-recipe-src.
+// ----------------------------------------------------------------------
+.recipe-title {
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin: 0 0 8px;
+}
+
+.source {
+  font: 500 12px/1 $font-mono;
+  color: $fg-mute;
+  margin: 0 0 24px;
+
+  .src-em {
+    color: $accent;
+  }
+}
+
+// ----------------------------------------------------------------------
+// 2-col grid — .v2-recipe-grid.
+// ----------------------------------------------------------------------
+.recipe-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 40px;
+  margin-top: 24px;
+}
+
+// ----------------------------------------------------------------------
+// Section label inside the card — .v2-recipe-sec.
+// ----------------------------------------------------------------------
+.recipe-sec {
+  font: 500 11px/1 $font-mono;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: $accent;
+  margin-bottom: 14px;
+}
+
+// ----------------------------------------------------------------------
+// Ingredients column — .v2-ing-row.
+// ----------------------------------------------------------------------
+.ing-row {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 12px;
+  padding: 8px 0;
+  font-size: 14px;
+  border-bottom: 1px solid $rule;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  .qty {
+    font: 500 12.5px/1.4 $font-mono;
+    color: $accent;
+  }
+
+  .name {
+    color: $fg-dim;
+  }
+}
+
+// ----------------------------------------------------------------------
+// Method column — .v2-step.
+// ----------------------------------------------------------------------
+.step {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 12px;
+  padding: 10px 0;
+  align-items: baseline;
+
+  & + .step {
+    border-top: 1px solid $rule;
+  }
+
+  .n {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: $accent-soft;
+    border: 1px solid rgba(167, 139, 250, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font: 500 11px/1 $font-mono;
+    color: $accent;
+  }
+
+  p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.55;
+    color: $fg-dim;
+  }
+}
+
+// ----------------------------------------------------------------------
+// "Browse the library" link sits below the card.
+// ----------------------------------------------------------------------
+.recipe-library-link {
+  margin-top: 24px;
+}
+
+// ----------------------------------------------------------------------
+// ≤ 720px — single-column stack.
+// ----------------------------------------------------------------------
+@media (max-width: $bp-mobile) {
+  .card--recipe {
+    padding: 22px;
+    border-radius: 16px;
+    gap: 24px;
+  }
+
+  .recipe-header {
+    gap: 8px 10px;
+  }
+
+  .recipe-title {
+    font-size: 24px;
+  }
+
+  .source {
+    font-size: 11px;
+    margin-bottom: 20px;
+  }
+
+  .recipe-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    margin-top: 18px;
+  }
+
+  .recipe-sec {
+    margin-top: 0;
+  }
+
+  .ing-row {
+    grid-template-columns: 1fr;
+    gap: 2px;
+    padding: 8px 0;
+
+    .qty {
+      font-size: 11.5px;
+    }
+    .name {
+      font-size: 14px;
+    }
+  }
+
+  .step {
+    gap: 10px;
+    padding: 10px 0;
+    grid-template-columns: 24px 1fr;
+
+    .n {
+      width: 20px;
+      height: 20px;
+      font-size: 10.5px;
+    }
+  }
+}
+
+@media (max-width: $bp-narrow) {
+  .card--recipe {
+    padding: 18px;
+  }
+}

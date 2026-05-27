@@ -432,6 +432,181 @@ body::after {
     grid-template-columns: 1fr 1fr;
   }
 }
+.card--recipe {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 32px;
+}
+
+.recipe-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.version-pill {
+  padding: 4px 10px;
+  background: rgba(167, 139, 250, 0.18);
+  border-radius: 6px;
+  font: 500 11px/1 "JetBrains Mono", ui-monospace, monospace;
+  color: #a78bfa;
+}
+
+.deploy-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font: 500 11px/1 "JetBrains Mono", ui-monospace, monospace;
+  color: #86efac;
+}
+.deploy-indicator .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #4ade80;
+  animation: pulse 2s infinite;
+}
+.deploy-indicator.muted {
+  color: #71717a;
+}
+
+.recipe-title {
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin: 0 0 8px;
+}
+
+.source {
+  font: 500 12px/1 "JetBrains Mono", ui-monospace, monospace;
+  color: #71717a;
+  margin: 0 0 24px;
+}
+.source .src-em {
+  color: #a78bfa;
+}
+
+.recipe-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 40px;
+  margin-top: 24px;
+}
+
+.recipe-sec {
+  font: 500 11px/1 "JetBrains Mono", ui-monospace, monospace;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #a78bfa;
+  margin-bottom: 14px;
+}
+
+.ing-row {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 12px;
+  padding: 8px 0;
+  font-size: 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.ing-row:last-child {
+  border-bottom: none;
+}
+.ing-row .qty {
+  font: 500 12.5px/1.4 "JetBrains Mono", ui-monospace, monospace;
+  color: #a78bfa;
+}
+.ing-row .name {
+  color: #a1a1aa;
+}
+
+.step {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 12px;
+  padding: 10px 0;
+  align-items: baseline;
+}
+.step + .step {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+.step .n {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(167, 139, 250, 0.18);
+  border: 1px solid rgba(167, 139, 250, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: 500 11px/1 "JetBrains Mono", ui-monospace, monospace;
+  color: #a78bfa;
+}
+.step p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.55;
+  color: #a1a1aa;
+}
+
+.recipe-library-link {
+  margin-top: 24px;
+}
+
+@media (max-width: 720px) {
+  .card--recipe {
+    padding: 22px;
+    border-radius: 16px;
+    gap: 24px;
+  }
+  .recipe-header {
+    gap: 8px 10px;
+  }
+  .recipe-title {
+    font-size: 24px;
+  }
+  .source {
+    font-size: 11px;
+    margin-bottom: 20px;
+  }
+  .recipe-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    margin-top: 18px;
+  }
+  .recipe-sec {
+    margin-top: 0;
+  }
+  .ing-row {
+    grid-template-columns: 1fr;
+    gap: 2px;
+    padding: 8px 0;
+  }
+  .ing-row .qty {
+    font-size: 11.5px;
+  }
+  .ing-row .name {
+    font-size: 14px;
+  }
+  .step {
+    gap: 10px;
+    padding: 10px 0;
+    grid-template-columns: 24px 1fr;
+  }
+  .step .n {
+    width: 20px;
+    height: 20px;
+    font-size: 10.5px;
+  }
+}
+@media (max-width: 420px) {
+  .card--recipe {
+    padding: 18px;
+  }
+}
 *,
 *::before,
 *::after {
