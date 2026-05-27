@@ -191,3 +191,87 @@
     grid-template-columns: 1fr 1fr;
   }
 }
+
+// ----------------------------------------------------------------------
+// T06 — Supporting project grid (Gather / Flower Shop / Twitter News).
+// 2-col desktop → 1-col @720. Cards share the base card chrome (linear
+// glass gradient + rule border) and lighten their border on hover.
+// Source: v2-stack.jsx (.v2-card, .v2-proj, .v2-projects).
+// ----------------------------------------------------------------------
+.project-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.card--project {
+  position: relative;
+  padding: 24px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01));
+  border: 1px solid $rule;
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: default;
+  transition: border-color 0.25s ease-out, transform 0.25s ease-out;
+
+  &:hover {
+    border-color: $rule-strong;
+  }
+
+  .proj-hd {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 14px;
+  }
+
+  .proj-title {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+
+  .proj-year {
+    font: 500 11px/1 $font-mono;
+    color: $fg-mute;
+  }
+
+  .proj-role {
+    font: 500 11px/1 $font-mono;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: $fg-mute;
+    margin-bottom: 14px;
+  }
+
+  .proj-summary {
+    font-size: 14px;
+    color: $fg-dim;
+    line-height: 1.55;
+    margin: 0 0 16px;
+  }
+
+  .proj-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+}
+
+@media (max-width: $bp-mobile) {
+  .project-grid {
+    grid-template-columns: 1fr;
+  }
+  .card--project {
+    padding: 20px;
+
+    .proj-title {
+      font-size: 19px;
+    }
+
+    .proj-summary {
+      font-size: 13.5px;
+    }
+  }
+}

@@ -432,6 +432,74 @@ body::after {
     grid-template-columns: 1fr 1fr;
   }
 }
+.project-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.card--project {
+  position: relative;
+  padding: 24px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: default;
+  transition: border-color 0.25s ease-out, transform 0.25s ease-out;
+}
+.card--project:hover {
+  border-color: rgba(255, 255, 255, 0.14);
+}
+.card--project .proj-hd {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 14px;
+}
+.card--project .proj-title {
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+.card--project .proj-year {
+  font: 500 11px/1 "JetBrains Mono", ui-monospace, monospace;
+  color: #71717a;
+}
+.card--project .proj-role {
+  font: 500 11px/1 "JetBrains Mono", ui-monospace, monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #71717a;
+  margin-bottom: 14px;
+}
+.card--project .proj-summary {
+  font-size: 14px;
+  color: #a1a1aa;
+  line-height: 1.55;
+  margin: 0 0 16px;
+}
+.card--project .proj-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+@media (max-width: 720px) {
+  .project-grid {
+    grid-template-columns: 1fr;
+  }
+  .card--project {
+    padding: 20px;
+  }
+  .card--project .proj-title {
+    font-size: 19px;
+  }
+  .card--project .proj-summary {
+    font-size: 13.5px;
+  }
+}
 .card--recipe {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01));
   border: 1px solid rgba(255, 255, 255, 0.08);
