@@ -314,7 +314,7 @@ body::after {
 
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 14px;
   margin: 28px 0 32px;
 }
