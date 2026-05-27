@@ -43,7 +43,52 @@
           <div class="meta-cell"><span class="k">STACK</span><span class="v">TypeScript · React · Node · Postgres</span></div>
         </div>
       </section>
-      <section id="work"></section>
+      <section id="work" class="section">
+        <header class="section-header">
+          <div>
+            <span class="eyebrow">01 / Featured</span>
+            <h2 class="section-title">The recipe library</h2>
+            <p class="section-sub">A side-project that became the project I'd point you at first. Built cheap, deployed static, and used daily.</p>
+          </div>
+        </header>
+        <article class="card--featured">
+          <span class="featured-tag">★ FEATURED · 2025</span>
+          <h3 class="featured-title">Recipes CLI + library</h3>
+          <p class="featured-summary">A 100-line Node CLI that turns any cooking URL into a normalized recipe JSON, deployed as a static library I actually cook from.</p>
+
+          <div class="stats-grid">
+            <div class="stat"><div class="v">~580</div><div class="k">Lines of code</div></div>
+            <div class="stat"><div class="v">15 ✓</div><div class="k">Jest tests</div></div>
+            <div class="stat"><div class="v">2</div><div class="k">Extractors</div></div>
+            <div class="stat"><div class="v">47</div><div class="k">Recipes ingested</div></div>
+          </div>
+
+          <div class="featured-subgrid">
+            <div class="sub-card">
+              <span class="k">Why it matters</span>
+              <p>Most recipe extractors solve the wrong problem (they scrape <em>everything</em>). This one does the cheap thing first — schema.org — and only pays for an LLM when the page refuses. The architecture is the point.</p>
+            </div>
+            <div class="sub-card">
+              <span class="k">The trick</span>
+              <p>Two-tier extractor: <code>schema.org</code> JSON-LD first (free, exact), <code>Claude</code> as a typed fallback. Source attribution stored on every recipe.</p>
+              <p>Browser-paste escape hatch (<code>--html-file</code>) for sites that ja3-fingerprint <code>node-fetch</code>. Ugly, pragmatic, works.</p>
+            </div>
+          </div>
+
+          <div class="featured-tags">
+            <span class="chip">Node</span>
+            <span class="chip">Cheerio</span>
+            <span class="chip">Anthropic SDK</span>
+            <span class="chip">Jest</span>
+            <span class="chip">GitHub Pages</span>
+          </div>
+
+          <div class="featured-actions">
+            <a class="btn-primary" href="https://github.com/neville-bot/portfolio">View source →</a>
+            <a class="btn-secondary" href="#recipe">See the library ↓</a>
+          </div>
+        </article>
+      </section>
       <section id="recipe"></section>
       <section id="path"></section>
       <section id="now"></section>

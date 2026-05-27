@@ -6,6 +6,8 @@
 
 @use './config' as *;
 @use './hero';
+@use './components';
+@use './work';
 
 *,
 *::before,
