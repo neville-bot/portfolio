@@ -1,0 +1,108 @@
+// _path.scss — portfolio redesign T07.
+// Career timeline (`#path` — Experience). Single column with a vertical
+// purple-to-fading gradient rule on the left, dot markers per row, and a
+// pulse animation on `.current` (most-recent role only). Reuses
+// `@keyframes pulse` from `_config.scss` and `.chip` from `_components.scss`.
+//
+// Source: design_handoff_portfolio_redesign/README.md §10 + prototype
+// portfolio_redesign/v2-stack.jsx (`.v2-timeline` block, lifted verbatim
+// with `.v2-` prefix dropped).
+
+@use './config' as *;
+
+.timeline {
+  position: relative;
+  padding-left: 20px;
+}
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 6px;
+  bottom: 6px;
+  width: 1px;
+  background: linear-gradient(180deg, $accent, $rule);
+}
+
+.tl-row {
+  position: relative;
+  padding: 0 0 28px 24px;
+  list-style: none;
+}
+
+.tl-row::before {
+  content: "";
+  position: absolute;
+  left: -16px;
+  top: 10px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: $accent;
+  box-shadow:
+    0 0 0 4px $bg,
+    0 0 12px $accent;
+}
+
+.tl-row.current::before {
+  animation: pulse 2s infinite;
+}
+
+.tl-when {
+  display: block;
+  font: 500 11px/1 $font-mono;
+  letter-spacing: 0.08em;
+  color: $fg-mute;
+  margin-bottom: 8px;
+}
+
+.tl-co {
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: 0 0 4px;
+}
+
+.tl-role {
+  font: 500 12px/1 $font-mono;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: $accent;
+  margin: 0 0 12px;
+}
+
+.tl-body {
+  font-size: 15px;
+  color: $fg-dim;
+  line-height: 1.6;
+  margin: 0 0 12px;
+  max-width: 640px;
+}
+
+.tl-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (max-width: $bp-mobile) {
+  .timeline {
+    padding-left: 16px;
+  }
+
+  .tl-row {
+    padding: 0 0 24px 20px;
+  }
+
+  .tl-co {
+    font-size: 19px;
+  }
+
+  .tl-body {
+    font-size: 14.5px;
+  }
+}
