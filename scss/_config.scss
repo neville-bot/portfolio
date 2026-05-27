@@ -40,3 +40,10 @@ $ease-slow:        0.5s ease-out;  // legacy from old site, not used in new
 $bp-narrow:        420px;
 $bp-mobile:        720px;
 $bp-tablet:        1100px;
+
+// Global keyframes — defined here so partials (hero status pill,
+// timeline current dot, recipe deploy indicator) can rely on them
+// without needing to forward-import a sibling partial.
+@keyframes pulse {
+  50% { opacity: 0.5; }
+}

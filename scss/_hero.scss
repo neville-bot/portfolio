@@ -1,0 +1,199 @@
+// _hero.scss — portfolio redesign T03.
+// Page-level ambient gradients + #hero section.
+// Lifted from design_handoff_portfolio_redesign/README.md §1–§5
+// and prototype/portfolio_redesign/v2-stack.jsx (v2Css string).
+
+@use './config' as *;
+
+// ----------------------------------------------------------------------
+// 1. Ambient background — two radial blurs on <body> behind everything.
+// ----------------------------------------------------------------------
+body::before {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+  top: -200px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1200px;
+  height: 800px;
+  background: radial-gradient(closest-side, rgba(124, 58, 237, 0.35), rgba(124, 58, 237, 0) 70%);
+  filter: blur(40px);
+}
+
+body::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+  top: 1200px;
+  right: -200px;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(closest-side, rgba(34, 211, 238, 0.12), rgba(34, 211, 238, 0) 70%);
+  filter: blur(40px);
+}
+
+@media (max-width: $bp-mobile) {
+  body::before {
+    width: 700px;
+    height: 500px;
+    opacity: 0.7;
+  }
+  body::after {
+    display: none;
+  }
+}
+
+// Wrap (the <main>) must sit above the gradients.
+.wrap {
+  position: relative;
+  z-index: 1;
+}
+
+// ----------------------------------------------------------------------
+// #hero — vertical padding + container.
+// ----------------------------------------------------------------------
+#hero {
+  padding: 180px 0 100px;
+}
+
+@media (max-width: $bp-mobile) {
+  #hero {
+    padding: 110px 0 60px;
+  }
+}
+
+@media (max-width: $bp-narrow) {
+  #hero {
+    padding: 96px 0 40px;
+  }
+}
+
+// ----------------------------------------------------------------------
+// 2. Status pill
+// ----------------------------------------------------------------------
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px 6px 10px;
+  background: $green-bg;
+  border: 1px solid $green-border;
+  border-radius: 999px;
+  font: 500 12px/1 $font-mono;
+  color: $green-fg;
+  white-space: nowrap;
+  margin-bottom: 32px;
+
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: $green;
+    box-shadow: 0 0 8px $green;
+    animation: pulse 2s infinite;
+  }
+}
+
+@media (max-width: $bp-mobile) {
+  .status-pill {
+    margin-bottom: 24px;
+    font-size: 11px;
+  }
+}
+
+// ----------------------------------------------------------------------
+// 3. Hero name — two text-clip gradients.
+// ----------------------------------------------------------------------
+.name {
+  font-size: clamp(64px, 9vw, 128px);
+  font-weight: 600;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  margin: 0 0 28px;
+
+  // "John" — white → dim-white
+  background: linear-gradient(180deg, #fff 30%, rgba(255, 255, 255, 0.55));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+
+  .accent {
+    // "Nevin." — lavender → deep purple
+    background: linear-gradient(180deg, #c4b5fd 0%, #{$accent-2} 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+// ----------------------------------------------------------------------
+// 4. Lede paragraph
+// ----------------------------------------------------------------------
+.lede {
+  font-size: 22px;
+  line-height: 1.4;
+  color: $fg-dim;
+  max-width: 680px;
+  margin: 0 0 40px;
+  font-weight: 400;
+
+  b {
+    color: $fg;
+    font-weight: 500;
+  }
+}
+
+@media (max-width: $bp-mobile) {
+  .lede {
+    font-size: 17px;
+  }
+}
+
+// ----------------------------------------------------------------------
+// 5. Meta grid — 4 col → 2 col @720 → 1 col @420
+// ----------------------------------------------------------------------
+.meta-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  max-width: 880px;
+}
+
+.meta-cell {
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid $rule;
+  border-radius: 12px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  display: flex;
+  flex-direction: column;
+
+  .k {
+    font: 500 10px/1 $font-mono;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: $fg-mute;
+    margin-bottom: 8px;
+  }
+
+  .v {
+    font-size: 14px;
+    color: $fg;
+  }
+}
+
+@media (max-width: $bp-mobile) {
+  .meta-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: $bp-narrow) {
+  .meta-grid {
+    grid-template-columns: 1fr;
+  }
+}

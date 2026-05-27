@@ -1,7 +1,11 @@
 // main.scss — portfolio redesign entry point.
 // Section partials are added incrementally per the redesign plan (T03–T13).
+// Pattern: one partial per section (_hero, _work, _recipe-inline, _path,
+// _now, _stack, _contact). Each `@use './config' as *;` for tokens; this
+// file `@use`s each partial in source order.
 
 @use './config' as *;
+@use './hero';
 
 *,
 *::before,
@@ -44,15 +48,9 @@ body {
   }
 }
 
-// sections here
-// hero
-// work
-// recipe
-// path
-// now
-// stack
-// contact
-// footer
+// sections:
+// hero in _hero.scss (T03)
+// work, recipe, path, now, stack, contact, footer — pending T04+
 
 // TODO(T10): rewrite scss/_recipes.scss and re-enable below.
 // @use './recipes';
