@@ -1,0 +1,80 @@
+// _now.scss — portfolio redesign T08.
+// Status report card for #now. Lifted from v2Css (.v2-now*) in
+// design_handoff_portfolio_redesign/prototype/portfolio_redesign/v2-stack.jsx
+// and the handoff §11.
+
+@use './config' as *;
+
+.card--now {
+  padding: 28px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.03),
+    rgba(255, 255, 255, 0.01)
+  );
+  border: 1px solid $rule;
+  border-radius: 16px;
+}
+
+.now-hd {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.now-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.now-updated {
+  font: 500 11px/1 $font-mono;
+  color: $fg-mute;
+  letter-spacing: 0.08em;
+}
+
+.now-list {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  gap: 14px 24px;
+  margin: 0;
+}
+
+.now-list dt {
+  font: 500 11px/1.4 $font-mono;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: $accent;
+  padding-top: 3px;
+}
+
+.now-list dd {
+  margin: 0;
+  font-size: 15px;
+  color: $fg-dim;
+  line-height: 1.5;
+}
+
+@media (max-width: $bp-mobile) {
+  .card--now {
+    padding: 22px;
+  }
+  .now-list {
+    grid-template-columns: 1fr;
+    gap: 4px 16px;
+  }
+  .now-list dt {
+    padding-top: 12px;
+  }
+  .now-list dt:first-of-type {
+    padding-top: 0;
+  }
+  .now-list dd {
+    font-size: 14.5px;
+    padding-bottom: 4px;
+  }
+}

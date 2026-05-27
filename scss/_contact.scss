@@ -1,0 +1,103 @@
+// _contact.scss — portfolio redesign T08.
+// CTA card for #contact + the page colophon (paired in the page footer area).
+// Lifted from v2Css (.v2-cta-* / .v2-colophon) in
+// design_handoff_portfolio_redesign/prototype/portfolio_redesign/v2-stack.jsx
+// and the handoff §13–§14.
+
+@use './config' as *;
+
+.cta-card {
+  padding: 48px;
+  background:
+    radial-gradient(
+      600px 200px at 0% 0%,
+      rgba(167, 139, 250, 0.2),
+      transparent 70%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.04),
+      rgba(255, 255, 255, 0.01)
+    );
+  border: 1px solid $rule;
+  border-radius: 24px;
+  text-align: center;
+}
+
+.cta-title {
+  font-size: 44px;
+  line-height: 1.05;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  margin: 0 0 16px;
+}
+
+.cta-title .accent {
+  background: linear-gradient(180deg, #c4b5fd, #{$accent-2});
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.cta-body {
+  font-size: 17px;
+  color: $fg-dim;
+  line-height: 1.5;
+  max-width: 520px;
+  margin: 0 auto 32px;
+}
+
+.cta-row {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+// Colophon — paired with CTA in the page footer.
+.colophon {
+  max-width: 1100px;
+  margin: 56px auto 0;
+  padding: 20px 32px;
+  border-top: 1px solid $rule;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font: 500 11px/1.6 $font-mono;
+  color: $fg-mute;
+  letter-spacing: 0.04em;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+@media (max-width: $bp-mobile) {
+  .cta-card {
+    padding: 32px 22px;
+    border-radius: 20px;
+  }
+  .cta-title {
+    font-size: 32px;
+    margin-bottom: 12px;
+  }
+  .cta-body {
+    font-size: 15px;
+    margin-bottom: 24px;
+  }
+  .colophon {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 10px;
+    margin-top: 40px;
+    padding: 20px;
+  }
+}
+
+@media (max-width: $bp-narrow) {
+  .cta-title {
+    font-size: 26px;
+  }
+  .colophon {
+    padding: 20px 16px;
+  }
+}

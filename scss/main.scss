@@ -10,6 +10,9 @@
 @use './work';
 @use './recipe-inline';
 @use './path';
+@use './now';
+@use './stack';
+@use './contact';
 
 *,
 *::before,

@@ -1,0 +1,42 @@
+// _stack.scss — portfolio redesign T08.
+// 2×2 stack grid for #stack. Lifted from v2Css (.v2-stack*) in
+// design_handoff_portfolio_redesign/prototype/portfolio_redesign/v2-stack.jsx
+// and the handoff §12.
+
+@use './config' as *;
+
+.stack-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.stack-card {
+  padding: 20px 22px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid $rule;
+  border-radius: 12px;
+}
+
+.stack-k {
+  font: 500 11px/1 $font-mono;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: $accent;
+  margin-bottom: 14px;
+}
+
+.stack-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+@media (max-width: $bp-mobile) {
+  .stack-grid {
+    grid-template-columns: 1fr;
+  }
+  .stack-card {
+    padding: 18px 20px;
+  }
+}
