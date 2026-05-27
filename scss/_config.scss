@@ -1,59 +1,42 @@
-$primary-color: #58bfee;
-$secondary-color: #321660;
-$show-home-image: true;
-$home-image: url(../img/background.jpg);
-$background-opacity: 0.9;
+// _config.scss
+// Design tokens for the portfolio redesign.
+// Source: design_handoff_portfolio_redesign/README.md §"Design tokens".
 
-@mixin easeOut {
-  transition: all 0.5s ease-out;
-}
+// Backgrounds
+$bg:               #0a0a0f;     // page background (very dark blue-black)
+$bg-2:             #11111a;     // card / inset background
+$bg-3:             #161620;     // deeper inset
 
-@mixin background {
-  @if $show-home-image {
-    &#bg-img {
-      background: $home-image;
-      background-attachment: fixed;
-      background-size: cover;
-      &:after {
-        content: "";
-        position: absolute;
-        top: 0;
-        right: 0;
-        width: 100%;
-        height: 100%;
-        z-index: -1;
-        background: rgba($primary-color, $background-opacity);
-      }
-    }
-  }
-}
-// set text color
-@function set-text-color($color) {
-  @if (lightness($color) > 40) {
-    @return #000;
-  } @else {
-    @return #fff;
-  }
-}
+// Foreground hierarchy
+$fg:               #f4f4f5;     // bright (headings, important)
+$fg-dim:           #a1a1aa;     // body text, secondary
+$fg-mute:          #71717a;     // tertiary, labels, captions
 
-// media query mixins
-@mixin mediaSm {
-  @media screen and (max-width: 500px) {
-    @content;
-  }
-}
-@mixin mediaMd {
-  @media screen and (max-width: 768px) {
-    @content;
-  }
-}
-@mixin mediaLg {
-  @media screen and (min-width: 769px) and (max-width: 1170px) {
-    @content;
-  }
-}
-@mixin mediaXl {
-  @media screen and (min-width: 1171px) {
-    @content;
-  }
-}
+// Rules
+$rule:             rgba(255, 255, 255, 0.08);   // default border
+$rule-strong:      rgba(255, 255, 255, 0.14);   // hover/emphasis border
+
+// Accent (purple)
+$accent:           #a78bfa;                     // primary accent
+$accent-2:         #7c3aed;                     // accent gradient stop
+$accent-soft:      rgba(167, 139, 250, 0.18);   // accent fill background
+
+// Status
+$green:            #4ade80;
+$green-fg:         #86efac;
+$green-bg:         rgba(74, 222, 128, 0.08);
+$green-border:     rgba(74, 222, 128, 0.25);
+
+// Typography
+$font-sans:        "Inter", -apple-system, system-ui, sans-serif;
+$font-mono:        "JetBrains Mono", ui-monospace, monospace;
+
+// Easing — universal
+$ease-fast:        0.15s ease-out;
+$ease-med:         0.25s ease-out;
+$ease-slow:        0.5s ease-out;  // legacy from old site, not used in new
+
+// Breakpoints
+$bp-narrow:        420px;
+$bp-mobile:        720px;
+$bp-tablet:        1100px;

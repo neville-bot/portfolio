@@ -1,198 +1,58 @@
-@import "config";
-@import "menu";
-* {
+// main.scss — portfolio redesign entry point.
+// Section partials are added incrementally per the redesign plan (T03–T13).
+
+@use './config' as *;
+
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  @include background;
-  background: $primary-color;
-  color: set-text-color($primary-color);
-  height: 100%;
+  background: $bg;
+  color: $fg;
+  font-family: $font-sans;
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  position: relative;
+  overflow-x: hidden;
   margin: 0;
-  font-family: "Inter", sans-serif;
-  line-height: 1.5;
 }
 
-//Headings
-h1,
-h2,
-h3 {
-  margin: 0;
-  font-weight: 400;
-  &.lg-heading {
-    font-size: 6rem;
-  }
-  &.sm-heading {
-    margin-bottom: 2rem;
-    // padding: 0.2rem 1rem;
-    background: rgba(lighten($primary-color, 2), 0.5);
+.wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+@media (max-width: $bp-mobile) {
+  .wrap {
+    padding: 0 20px;
   }
 }
 
-a {
-  color: black;
-  text-decoration: none;
-}
-
-header {
-  position: fixed;
-  z-index: 2;
-  width: 100%;
-}
-
-.text-secondary {
-  color: $secondary-color;
-}
-
-main {
-  padding: 4rem;
-  min-height: calc(100vh - 60px);
-  .icons {
-    margin-top: 1rem;
-    a {
-      padding: 0.4rem;
-
-      &:hover {
-        color: $secondary-color;
-        @include easeOut();
-      }
-    }
-  }
-
-  &#home {
-    overflow: hidden;
-    h1 {
-      margin-top: 20vh;
-    }
+@media (max-width: $bp-narrow) {
+  .wrap {
+    padding: 0 16px;
   }
 }
 
-.about-info {
-  display: grid;
-  grid-gap: 30px;
-  grid-template-areas:
-    "bioimage bio bio"
-    "bioimage techstack techstack"
-    "job1 job2 job3";
-  grid-template-columns: repeat(3, 1fr);
+// sections here
+// hero
+// work
+// recipe
+// path
+// now
+// stack
+// contact
+// footer
 
-  .bio-image {
-    grid-area: bioimage;
-    margin: auto;
-    border-radius: 50%;
-    border: $secondary-color 3px solid;
-  }
-
-  .bio {
-    grid-area: bio;
-    font-size: 1.5 rem;
-  }
-
-  .tech-stack {
-    grid-area: techstack;
-
-    ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 0.4rem 1.5rem;
-    }
-  }
-
-  .job-1 {
-    grid-area: job1;
-  }
-  .job-2 {
-    grid-area: job2;
-  }
-  .job-3 {
-    grid-area: job3;
-  }
-
-  .job {
-    background: lighten($primary-color, 5);
-    padding: 0.7rem;
-    border-bottom: $secondary-color 3px solid;
-  }
-}
-
-// Work/projects
-.projects {
-  display: grid;
-  grid-gap: 0.7rem;
-  grid-template-columns: repeat(3, 1fr);
-
-  img {
-    width: 100%;
-    border: 3px #fff solid;
-
-    &:hover {
-      opacity: 0.5;
-      border-color: $secondary-color;
-      @include easeOut;
-    }
-  }
-}
-
-// Contact Page
-.boxes {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-  align-items: center;
-  margin-top: 1rem;
-
-  div {
-    font-size: 2rem;
-    border: 3px #fff solid;
-    padding: 1.5rem 2.5rem;
-    margin-bottom: 3rem;
-    @include easeOut;
-
-    &:hover {
-      padding: 0.5rem 1.5rem;
-      background: $secondary-color;
-      color: set-text-color($secondary-color);
-      span {
-        color: set-text-color($secondary-color);
-      }
-    }
-  }
-}
-
-// button styles
-.btn {
-  display: block;
-  padding: 0.5rem 1rem;
-  border: 0;
-  margin-bottom: 0.3rem;
-  &:hover {
-    background: $secondary-color;
-    color: set-text-color($secondary-color);
-  }
-}
-
-.btn-dark {
-  @extend .btn;
-  background: darken($primary-color, 50);
-  color: #fff;
-}
-
-.btn-light {
-  @extend .btn;
-  background: lighten($primary-color, 50);
-  color: #333;
-}
-
-#main-footer {
-  text-align: center;
-  padding: 1rem;
-  background: darken($primary-color, 10);
-  color: set-text-color($primary-color);
-  height: 60px;
-}
-@import "recipes";
-@import "mobile";
+// TODO(T10): rewrite scss/_recipes.scss and re-enable below.
+// @use './recipes';
