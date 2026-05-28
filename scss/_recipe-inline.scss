@@ -119,12 +119,12 @@
     border-bottom: none;
   }
 
-  .qty {
+  .ing-qty {
     font: 500 12.5px/1.4 $font-mono;
     color: $accent;
   }
 
-  .name {
+  .ing-name {
     color: $fg-dim;
   }
 }
@@ -209,10 +209,10 @@
     gap: 2px;
     padding: 8px 0;
 
-    .qty {
+    .ing-qty {
       font-size: 11.5px;
     }
-    .name {
+    .ing-name {
       font-size: 14px;
     }
   }
